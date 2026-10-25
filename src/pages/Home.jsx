@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { mockUser } from '../lib/mock/user';
 import { mockCycle } from '../lib/mock/cycle';
 import { useTranslation } from '../i18n/index.jsx';
@@ -9,7 +10,12 @@ import LanguageToggle from '../components/LanguageToggle';
 import BottomNav from '../components/BottomNav';
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleMicClick = () => {
+    navigate('/log');
+  };
 
   return (
     <main className="w-full max-w-[430px] mx-auto min-h-screen bg-white relative flex flex-col pb-32">
@@ -55,6 +61,7 @@ export default function Home() {
             </div>
             <button
               aria-label="Record voice symptom log"
+              onClick={handleMicClick}
               className="w-14 h-14 rounded-full bg-[#EE8070] border-[2.5px] border-black shadow-[4px_4px_0px_#000000] flex items-center justify-center flex-shrink-0 cursor-pointer active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
             >
               <span className="material-symbols-outlined text-black text-[28px]">mic</span>
