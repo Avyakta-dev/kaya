@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kaya - Report Preview</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-secondary": "#ffffff",
+            "on-background": "#1b1b1b",
+            "on-tertiary-fixed": "#2a1710",
+            "background": "#f9f9f9",
+            "on-secondary-fixed": "#370e02",
+            "inverse-on-surface": "#f1f1f1",
+            "error-container": "#ffdad6",
+            "on-primary-container": "#681a12",
+            "secondary-fixed-dim": "#ffb59c",
+            "error": "#ba1a1a",
+            "tertiary-container": "#b9988d",
+            "surface-container-highest": "#e2e2e2",
+            "surface-variant": "#e2e2e2",
+            "on-surface": "#1b1b1b",
+            "on-tertiary-container": "#483129",
+            "outline-variant": "#dcc0bc",
+            "tertiary-fixed": "#ffdbcf",
+            "primary-fixed-dim": "#ffb4a8",
+            "secondary-fixed": "#ffdbcf",
+            "primary": "#9d4235",
+            "outline": "#89726e",
+            "primary-fixed": "#ffdad5",
+            "on-secondary-fixed-variant": "#6d3826",
+            "on-error-container": "#93000a",
+            "primary-container": "#ee8070",
+            "on-tertiary": "#ffffff",
+            "surface-tint": "#9d4235",
+            "tertiary": "#74584f",
+            "on-secondary-container": "#79422e",
+            "surface-container": "#eeeeee",
+            "surface-container-lowest": "#ffffff",
+            "surface-dim": "#dadada",
+            "tertiary-fixed-dim": "#e3bfb3",
+            "secondary": "#894f3b",
+            "surface-container-high": "#e8e8e8",
+            "on-surface-variant": "#56423f",
+            "on-primary-fixed": "#410000",
+            "on-error": "#ffffff",
+            "surface-container-low": "#f3f3f3",
+            "inverse-surface": "#303030",
+            "surface-bright": "#f9f9f9",
+            "surface": "#f9f9f9",
+            "on-primary-fixed-variant": "#7e2b20",
+            "secondary-container": "#feb198",
+            "on-tertiary-fixed-variant": "#5a4138",
+            "on-primary": "#ffffff",
+            "inverse-primary": "#ffb4a8"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1.25rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Nunito Sans"],
+            "body-sm": ["Nunito Sans"],
+            "headline-sm": ["Nunito Sans"],
+            "headline-md": ["Nunito Sans"],
+            "body-lg": ["Nunito Sans"],
+            "label-lg": ["Nunito Sans"],
+            "label-md": ["Nunito Sans"],
+            "label-sm": ["Nunito Sans"],
+            "body-md": ["Nunito Sans"],
+            "display": ["Nunito Sans"]
+          },
+          "fontSize": {
+            "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "26px", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "30px", "fontWeight": "800" }],
+            "body-lg": ["17px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "800" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "800" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "900" }],
+            "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "display": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "900" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined[data-weight="fill"] {
+      font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md min-h-screen flex justify-center selection:bg-primary-container selection:text-on-surface">
+<!-- Mobile Screen Canvas Wrapper (390px default bounds) -->
+<main class="w-full max-w-[390px] min-h-screen bg-background relative flex flex-col pb-32">
+<!-- Top App Bar (Shared Anchor Blueprint) -->
+<header class="sticky top-0 z-40 bg-surface flex justify-between items-center w-full px-margin py-space-sm border-b-[2.5px] border-on-surface shadow-[0px_4px_0px_#000000]">
+<!-- Left: Back Action Button -->
+<button aria-label="Go Back" class="w-10 h-10 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-transform">
+<span class="material-symbols-outlined text-[20px] text-on-surface">arrow_back</span>
+</button>
+<!-- Center: Brand Wordmark & Screen Title -->
+<div class="flex flex-col items-center">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary-container text-[20px]" data-weight="fill">spa</span>
+<span class="text-headline-md font-headline-md font-black text-on-surface tracking-tight">Kaya</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface opacity-80 -mt-1 tracking-wider uppercase">Report Preview</span>
+</div>
+<!-- Right: Multilingual Action Pill -->
+<button class="bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] rounded-full px-space-sm py-1 text-label-sm font-label-sm text-on-surface active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-transform">
+        EN | ಕನ್ನಡ | हिं
+      </button>
+</header>
+<!-- Content Area Container -->
+<div class="px-margin pt-space-md space-y-space-md">
+<!-- Document Status Pill Banner -->
+<section class="flex items-center justify-center gap-2 bg-[#F6D1C5] border-[2.5px] border-on-surface rounded-full py-space-xs px-space-md shadow-[3px_3px_0px_#000000]">
+<span class="material-symbols-outlined text-primary text-[18px]" data-weight="fill">verified</span>
+<p class="text-label-sm font-label-sm text-on-surface tracking-wide">
+          Doctor-Ready Clinical Summary • Ready to Export
+        </p>
+</section>
+<!-- The One-Page Paper Document Card -->
+<article class="bg-surface-container-lowest border-[2.5px] border-on-surface rounded-[24px] shadow-[4px_4px_0px_#000000] p- space-y-space-md relative overflow-hidden p-4">
+<!-- Sheet Header with Medical Badge -->
+<div class="border-b-[2.5px] border-on-surface pb-3">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary-container border-[2px] border-on-surface flex items-center justify-center shadow-[2px_2px_0px_#000000]">
+<span class="material-symbols-outlined text-on-surface text-[18px]">medical_services</span>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-primary tracking-widest font-black uppercase">KAYA HEALTH SUMMARY</p>
+<p class="text-body-sm font-body-sm text-on-surface opacity-70 text-[11px] leading-tight">Generated: Oct 24, 2024</p>
+</div>
+</div>
+<span class="bg-[#F6D1C5] text-on-surface text-label-sm font-label-sm px-2 py-0.5 rounded-full border-[1.5px] border-on-surface">
+              v1.4 Encrypted
+            </span>
+</div>
+<h1 class="text-headline-sm font-headline-sm text-on-surface mt-2.5 tracking-tight font-extrabold">
+            Cycle &amp; Symptom Clinical Report
+          </h1>
+</div>
+<!-- SECTION 1: Patient Summary Container -->
+<section class="bg-[#F6D1C5] border-[2.5px] border-on-surface rounded-[18px] p-3 shadow-[2px_2px_0px_#000000] space-y-2">
+<div class="flex items-center justify-between pb-1.5 border-b-[1.5px] border-on-surface border-dashed">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-on-surface text-[18px]">person</span>
+<span class="text-label-md font-label-md text-on-surface font-extrabold">Priya S., 26 yrs</span>
+</div>
+<span class="text-label-sm font-label-sm bg-surface-container-lowest px-2 py-0.5 rounded-full border-[1.5px] border-on-surface text-on-surface">
+              Adult (Regular tracking)
+            </span>
+</div>
+<div class="grid grid-cols-2 gap-2 pt-0.5">
+<div class="bg-surface-container-lowest p-2 rounded-xl border-[2px] border-on-surface shadow-[1px_1px_0px_#000000]">
+<p class="text-label-sm font-label-sm text-on-surface opacity-75 text-[10px]">LOGGED INTERVAL</p>
+<p class="text-body-sm font-body-sm font-bold text-on-surface">3 Cycles (Aug–Oct)</p>
+</div>
+<div class="bg-surface-container-lowest p-2 rounded-xl border-[2px] border-on-surface shadow-[1px_1px_0px_#000000]">
+<p class="text-label-sm font-label-sm text-on-surface opacity-75 text-[10px]">AVG CYCLE LENGTH</p>
+<p class="text-body-sm font-body-sm font-bold text-primary">31 Days (Varied)</p>
+</div>
+</div>
+</section>
+<!-- SECTION 2: 3-Month Timeline Analysis -->
+<section class="space-y-2">
+<div class="flex items-center justify-between">
+<h2 class="text-label-lg font-label-lg text-on-surface font-black flex items-center gap-1.5">
+<span class="material-symbols-outlined text-on-surface text-[18px]">calendar_month</span>
+              3-Month Cycle Timeline
+            </h2>
+<span class="text-label-sm font-label-sm text-primary font-bold">Δ 9 Days Max Spread</span>
+</div>
+<!-- Timeline Blocks -->
+<div class="space-y-2 pt-1">
+<!-- Aug Cycle -->
+<div class="p-2.5 rounded-[14px] bg-surface-container-lowest border-[2px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-[#F6D1C5] border-[2px] border-on-surface flex flex-col items-center justify-center font-bold text-[11px] leading-tight">
+<span>AUG</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-body-sm font-body-sm font-extrabold text-on-surface">28 Days</span>
+<span class="text-[10px] bg-surface-container-high px-1.5 py-0.2 rounded border-[1px] border-on-surface font-semibold">Typical</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface opacity-80 text-[11px]">Normal flow • Mild pain (2/5)</p>
+</div>
+</div>
+<div class="w-12 h-3.5 bg-surface-container-low rounded-full border-[1.5px] border-on-surface overflow-hidden">
+<div class="bg-primary-container h-full w-[70%] border-r-[1.5px] border-on-surface"></div>
+</div>
+</div>
+<!-- Sep Cycle (Flagged Delay) -->
+<div class="p-2.5 rounded-[14px] bg-[#F4A990] border-[2px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-surface-container-lowest border-[2px] border-on-surface flex flex-col items-center justify-center font-black text-[11px] leading-tight">
+<span class="text-primary">SEP</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-body-sm font-body-sm font-extrabold text-on-surface">37 Days</span>
+<span class="text-[10px] bg-primary-container text-on-surface font-extrabold px-1.5 py-0.2 rounded border-[1px] border-on-surface">Delayed +9d</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface text-[11px] font-semibold">Heavy cramps (4/5) in Luteal phase</p>
+</div>
+</div>
+<div class="w-12 h-3.5 bg-surface-container-lowest rounded-full border-[1.5px] border-on-surface overflow-hidden">
+<div class="bg-primary h-full w-[95%] border-r-[1.5px] border-on-surface"></div>
+</div>
+</div>
+<!-- Oct Cycle -->
+<div class="p-2.5 rounded-[14px] bg-surface-container-lowest border-[2px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-[#F6D1C5] border-[2px] border-on-surface flex flex-col items-center justify-center font-bold text-[11px] leading-tight">
+<span>OCT</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="text-body-sm font-body-sm font-extrabold text-on-surface">30 Days</span>
+<span class="text-[10px] bg-surface-container-high px-1.5 py-0.2 rounded border-[1px] border-on-surface font-semibold">Resolved</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface opacity-80 text-[11px]">Moderate flow • Mild fatigue &amp; anxiety</p>
+</div>
+</div>
+<div class="w-12 h-3.5 bg-surface-container-low rounded-full border-[1.5px] border-on-surface overflow-hidden">
+<div class="bg-primary-container h-full w-[76%] border-r-[1.5px] border-on-surface"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- SECTION 3: Flagged Patterns (Clinical Observations) -->
+<section class="space-y-2">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]" data-weight="fill">stethoscope</span>
+<h2 class="text-label-lg font-label-lg text-on-surface font-black">
+              Flagged Patterns for Doctor
+            </h2>
+</div>
+<div class="space-y-2">
+<!-- Pattern 1 -->
+<div class="p-2.5 bg-[#F6D1C5] border-[2px] border-on-surface rounded-[16px] shadow-[2px_2px_0px_#000000]">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-on-surface text-[17px]">warning</span>
+<h3 class="text-label-md font-label-md font-extrabold text-on-surface">
+                  Cycle Length Variation (9 days)
+                </h3>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface opacity-90 text-[12px] leading-snug">
+                Fluctuation between Aug (28d) and Sep (37d) exceeds standard normal clinical variance threshold (&gt;7d).
+              </p>
+</div>
+<!-- Pattern 2 -->
+<div class="p-2.5 bg-[#F4A990] border-[2px] border-on-surface rounded-[16px] shadow-[2px_2px_0px_#000000]">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-on-surface text-[17px]">priority_high</span>
+<h3 class="text-label-md font-label-md font-extrabold text-on-surface">
+                  Luteal Cramping (Severity 4/5)
+                </h3>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface text-[12px] leading-snug">
+                Severe pelvic discomfort clustered for 3 consecutive days prior to menstruation in late September.
+              </p>
+</div>
+</div>
+<div class="bg-surface-container-high border-[1.5px] border-on-surface rounded-xl p-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">info</span>
+<p class="text-[11px] font-bold text-on-surface leading-tight">
+              Clinically relevant for PCOS &amp; progesterone hormone panel evaluation.
+            </p>
+</div>
+</section>
+<!-- SECTION 4: Questions to Ask Your Doctor -->
+<section class="bg-surface-container-lowest border-[2.5px] border-on-surface rounded-[18px] p-3 shadow-[2px_2px_0px_#000000] space-y-2">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-md bg-secondary-container border-[1.5px] border-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[15px] text-on-surface">help</span>
+</div>
+<h2 class="text-label-md font-label-md font-black text-on-surface">
+              Suggested Questions for Your Visit
+            </h2>
+</div>
+<ul class="space-y-2 pt-1 text-[12px] text-on-surface leading-snug font-body-sm">
+<li class="flex items-start gap-2 bg-[#F6D1C5]/30 p-1.5 rounded-lg border-[1px] border-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px] mt-0.5 shrink-0" data-weight="fill">check_box</span>
+<span>Could my 9-day cycle fluctuation indicate an anovulatory cycle or early hormonal imbalance?</span>
+</li>
+<li class="flex items-start gap-2 bg-[#F6D1C5]/30 p-1.5 rounded-lg border-[1px] border-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px] mt-0.5 shrink-0" data-weight="fill">check_box</span>
+<span>Are severe premenstrual cramps (4/5) consistent with secondary dysmenorrhea or pelvic congestion?</span>
+</li>
+<li class="flex items-start gap-2 bg-[#F6D1C5]/30 p-1.5 rounded-lg border-[1px] border-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px] mt-0.5 shrink-0" data-weight="fill">check_box</span>
+<span>Should we run baseline bloodwork (FSH, LH, Prolactin, Total Testosterone &amp; TSH)?</span>
+</li>
+</ul>
+</section>
+<!-- Confidentiality Badge Stamp -->
+<div class="pt-1 flex items-center justify-center gap-1.5 text-center opacity-85">
+<span class="material-symbols-outlined text-[15px] text-on-surface">lock</span>
+<p class="text-[11px] font-bold text-on-surface tracking-wide">
+            Generated on-device • HIPAA &amp; Clinical Privacy Standards
+          </p>
+</div>
+</article>
+<!-- Bottom Interactive Action Buttons -->
+<section class="grid grid-cols-5 gap-2.5 pt-1">
+<!-- Download PDF Button (Coral Primary) -->
+<button class="col-span-3 bg-primary-container text-on-surface border-[2.5px] border-on-surface rounded-full py-3 px-space-md shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-label-lg active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform">
+<span class="material-symbols-outlined text-[20px]">download</span>
+<span>Download PDF</span>
+</button>
+<!-- Share Button (Secondary White) -->
+<button class="col-span-2 bg-surface-container-lowest text-on-surface border-[2.5px] border-on-surface rounded-full py-3 px-space-md shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-label-lg active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform">
+<span class="material-symbols-outlined text-[20px]">share</span>
+<span>Share</span>
+</button>
+</section>
+</div>
+<!-- Bottom Navigation Bar (Shared Shell Component with EXACT styles & classes) -->
+<!-- Destination count: 4 | Destinations: Home, Log, Insights, Report -->
+<!-- Active Destination: "Report" per page intent mapping -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-space-sm bg-surface-container-lowest dark:bg-inverse-surface border-t-[2.5px] border-on-surface dark:border-outline shadow-[0px_-4px_0px_#000000] max-w-[390px] mx-auto right-0">
+<!-- Home Tab (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-inverse-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px] active:shadow-none duration-100" href="#home">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="text-label-sm font-label-sm font-bold">Home</span>
+</a>
+<!-- Log Tab (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-inverse-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px] active:shadow-none duration-100" href="#log">
+<span class="material-symbols-outlined text-[24px]">edit_calendar</span>
+<span class="text-label-sm font-label-sm font-bold">Log</span>
+</a>
+<!-- Insights Tab (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-inverse-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px] active:shadow-none duration-100" href="#insights">
+<span class="material-symbols-outlined text-[24px]">insights</span>
+<span class="text-label-sm font-label-sm font-bold">Insights</span>
+</a>
+<!-- Report Tab (ACTIVE - Matches page context) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-space-md py-space-xs border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none duration-100" href="#report">
+<span class="material-symbols-outlined text-[24px]" data-weight="fill">description</span>
+<span class="text-label-sm font-label-sm font-bold">Report</span>
+</a>
+</nav>
+</main>
+</body></html>

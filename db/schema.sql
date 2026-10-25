@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS symptom_logs (
   date       DATE NOT NULL DEFAULT CURRENT_DATE,
   type       TEXT NOT NULL CHECK (type IN (
                'pain', 'fatigue', 'mood', 'bloating',
-               'headache', 'nausea', 'cramps', 'spotting', 'other'
+               'headache', 'nausea', 'cramps', 'spotting',
+               'flow', 'sleep', 'other'
              )),
   severity   INT CHECK (severity BETWEEN 1 AND 5),
   area       TEXT,                        -- e.g. 'abdomen', 'lower back', 'head'
@@ -50,6 +51,19 @@ CREATE TABLE IF NOT EXISTS symptom_logs (
   note       TEXT,                        -- raw voice transcript or free text
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- ============================================================
+-- 3b. SYNC EXISTING TABLES  (idempotent – safe to re-run)
+-- ============================================================
+-- The frontend and /api/extract emit 'flow' and 'sleep' symptom types;
+-- add them to the CHECK constraint on databases created before this.
+ALTER TABLE symptom_logs DROP CONSTRAINT IF EXISTS symptom_logs_type_check;
+ALTER TABLE symptom_logs ADD CONSTRAINT symptom_logs_type_check
+  CHECK (type IN (
+    'pain', 'fatigue', 'mood', 'bloating',
+    'headache', 'nausea', 'cramps', 'spotting',
+    'flow', 'sleep', 'other'
+  ));
 
 -- ============================================================
 -- 4. INDEXES  (speed up per-user date-range queries)

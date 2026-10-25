@@ -1,12 +1,38 @@
 import { useTranslation } from '../i18n/index.jsx';
 
-export default function CycleRing({ currentDay, periodInDays }) {
+export default function CycleRing({ currentDay, periodInDays, cycleLength = 30, phase = 'luteal' }) {
   const { t } = useTranslation();
 
+  // Calculate actual period days text
+  const getPeriodText = () => {
+    if (periodInDays === 0) return 'Period today';
+    if (periodInDays === 1) return 'Period in 1 day';
+    return `Period in ${periodInDays} days`;
+  };
+
+  // Get phase-specific suggestion
+  const getPhaseSuggestion = () => {
+    if (phase === 'follicular') return 'Energy increasing';
+    if (phase === 'ovulation') return 'Fertile window';
+    if (phase === 'luteal') return 'Rest recommended';
+    return '';
+  };
+
   const circumference = 2 * Math.PI * 82;
-  const follicularLength = 140;
-  const ovulationLength = 120;
-  const lutealLength = 170;
+  // Adjust ring segments for 30-day cycle (accurate proportions)
+  // Follicular: 14 days = 14/30 = 46.7% of circumference
+  // Ovulation: 3 days = 3/30 = 10% of circumference
+  // Luteal: 13 days = 13/30 = 43.3% of circumference
+  const follicularLength = Math.round(circumference * 0.467); // ~240
+  const ovulationLength = Math.round(circumference * 0.10);   // ~52
+  const lutealLength = Math.round(circumference * 0.433);     // ~223
+
+  // Phase colors - distinct for each phase
+  const phaseColors = {
+    follicular: '#FFE4D6',  // Very light peach - more distinct from luteal
+    ovulation: '#F4A990',    // Peach
+    luteal: '#EE8070'        // Coral
+  };
 
   return (
     <section className="w-full bg-white rounded-[24px] border-[2.5px] border-black shadow-[4px_4px_0px_#000000] p-5 flex flex-col items-center relative overflow-hidden">
@@ -18,7 +44,7 @@ export default function CycleRing({ currentDay, periodInDays }) {
             cy="100"
             fill="none"
             r="82"
-            stroke="#F6D1C5"
+            stroke={phaseColors.follicular}
             strokeDasharray={`${follicularLength} ${circumference}`}
             strokeDashoffset="0"
             strokeLinecap="round"
@@ -29,7 +55,7 @@ export default function CycleRing({ currentDay, periodInDays }) {
             cy="100"
             fill="none"
             r="82"
-            stroke="#F4A990"
+            stroke={phaseColors.ovulation}
             strokeDasharray={`${ovulationLength} ${circumference}`}
             strokeDashoffset={`-${follicularLength}`}
             strokeLinecap="round"
@@ -40,7 +66,7 @@ export default function CycleRing({ currentDay, periodInDays }) {
             cy="100"
             fill="none"
             r="82"
-            stroke="#EE8070"
+            stroke={phaseColors.luteal}
             strokeDasharray={`${lutealLength} ${circumference}`}
             strokeDashoffset={`-${follicularLength + ovulationLength}`}
             strokeLinecap="round"
@@ -50,10 +76,6 @@ export default function CycleRing({ currentDay, periodInDays }) {
           <circle cx="100" cy="100" fill="none" r="73" stroke="#000000" strokeWidth="2.5"></circle>
         </svg>
 
-        <div className="absolute top-4 right-10 w-6 h-6 rounded-full bg-[#EE8070] border-[2.5px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-center">
-          <span className="w-2 h-2 rounded-full bg-black"></span>
-        </div>
-
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
           <span className="text-[11px] uppercase tracking-wider text-black font-extrabold mb-0.5">
             {t('shared.current')}
@@ -62,23 +84,26 @@ export default function CycleRing({ currentDay, periodInDays }) {
             {t('shared.day')} {currentDay}
           </span>
           <div className="mt-2 bg-[#F6D1C5] border-[2.5px] border-black rounded-full px-3 py-1 shadow-[2px_2px_0px_#000000]">
-            <span className="text-[11px] font-black text-black">{t('shared.periodIn')}</span>
+            <span className="text-[11px] font-black text-black">{getPeriodText()}</span>
+          </div>
+          <div className="mt-1.5 text-[10px] font-bold text-black opacity-70 text-center">
+            {getPhaseSuggestion()}
           </div>
         </div>
       </div>
 
       <div className="w-full flex items-center justify-between pt-2 border-t-[2.5px] border-black mt-2 text-[11px] font-bold">
         <div className="flex items-center gap-1.5">
-          <span className="w-3.5 h-3.5 rounded-full bg-[#EE8070] border-[1.5px] border-black"></span>
+          <span className={`w-3.5 h-3.5 rounded-full border-[1.5px] border-black ${phase === 'follicular' ? 'bg-[#FFE4D6]' : 'bg-[#FFE4D6]/30'}`}></span>
+          <span className={`text-black font-extrabold ${phase === 'follicular' ? '' : 'opacity-50'}`}>{t('shared.follicular')}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className={`w-3.5 h-3.5 rounded-full border-[1.5px] border-black ${phase === 'ovulation' ? 'bg-[#F4A990]' : 'bg-[#F4A990]/30'}`}></span>
+          <span className={`text-black font-extrabold ${phase === 'ovulation' ? '' : 'opacity-50'}`}>{t('shared.ovulation')}</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="w-3.5 h-3.5 rounded-full border-[1.5px] border-black bg-[#EE8070]"></span>
           <span className="text-black font-extrabold">{t('shared.luteal')}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-3.5 h-3.5 rounded-full bg-[#F4A990] border-[1.5px] border-black"></span>
-          <span className="text-black font-extrabold">{t('shared.ovulation')}</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-3.5 h-3.5 rounded-full bg-[#F6D1C5] border-[1.5px] border-black"></span>
-          <span className="text-black font-extrabold">{t('shared.follicular')}</span>
         </div>
       </div>
     </section>

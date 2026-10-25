@@ -7,7 +7,7 @@
       "placeholder": "Enter your name (e.g. Priya)",
       "continue": "Continue",
       "privacy": "Kept private on your device",
-      "step": "Step 1 of 3"
+      "step": "Step 1 of 2"
     },
     "lifeStage": {
       "title": "Choose your life stage",
@@ -22,30 +22,18 @@
       "perimenopauseDesc": "Cycle transitions, hot flashes & hormonal balance",
       "perimenopauseAge": "40+ yrs",
       "continue": "Continue",
-      "step": "Step 2 of 3",
+      "step": "Step 2 of 2",
+      "finish": "Continue to Kaya",
       "note": "You can update your life stage anytime in settings"
-    },
-    "language": {
-      "title": "Choose your language",
-      "subtitle": "Track, read insights, and voice-log in the language you feel most comfortable with.",
-      "english": "English",
-      "englishDesc": "Default language",
-      "kannada": "ಕನ್ನಡ (Kannada)",
-      "kannadaDesc": "ಧ್ವನಿ ಲಾಗಿಂಗ್ ಮತ್ತು ವರದಿಗಳು",
-      "hindi": "हिंदी (Hindi)",
-      "hindiDesc": "आवाज़ से लॉगिंग और रिपोर्ट्स",
-      "voicePreview": "You can speak naturally in any of these languages to log symptoms anytime!",
-      "continue": "Continue to Kaya",
-      "step": "Step 3 of 3"
     }
   },
   "home": {
-    "greeting": "Hi Priya 👋",
+    "greeting": "Hi {name} 👋",
     "cycleDay": "Cycle Day 22",
     "howFeeling": "How are you feeling today?",
     "dailyLog": "Daily Log",
-    "speakLanguage": "Speak in your language",
-    "voiceExample": "\"ಉದರ ನೋವಿದೆ\", \"थकान लग रही है\", or English",
+    "speakLanguage": "Log by voice",
+    "voiceExample": "\"Cramps since morning\", \"Feeling tired today\", or \"Flow is heavy\"",
     "lutealPhase": "Luteal phase",
     "lutealDays": "Days 15–28",
     "eat": "Eat:",
@@ -66,8 +54,8 @@
   },
   "log": {
     "title": "Voice Log",
-    "tapSpeak": "Tap and speak in Kannada, Hindi or English",
-    "voiceExamples": "\"ಹೊಟ್ಟೆ ನೋವು ಇದೆ\" • \"Pet dard ho raha hai\" • \"Cramps since morning\"",
+    "tapSpeak": "Tap and speak to log your symptoms",
+    "voiceExamples": "\"Cramps since morning\" • \"Feeling tired all day\" • \"Flow is heavy today\"",
     "listening": "Listening...",
     "transcribed": "Transcribed audio",
     "autoDetected": "Auto-Detected",
@@ -75,6 +63,19 @@
     "confirmSave": "Confirm & Save Log",
     "editDetails": "Edit Details",
     "privacy": "Audio is processed securely and encrypted on your device."
+  },
+  "calendar": {
+    "title": "Cycle Calendar",
+    "subtitle": "Track periods, symptoms & flow",
+    "cycleDay": "CYCLE DAY {day} • {phase}",
+    "nextIn": "Next in {days} days",
+    "addLog": "+ Add log",
+    "period": "Period",
+    "symptoms": "Symptoms",
+    "today": "Today",
+    "selectedEntry": "Selected Log Entry",
+    "noLogs": "No logs yet for this day",
+    "emptyHint": "Tap + Add log to record your first entry"
   },
   "insights": {
     "title": "Insights",
@@ -105,7 +106,7 @@
     "generated": "Generated: Oct 24, 2024",
     "encrypted": "v1.4 Encrypted",
     "reportTitle": "Cycle & Symptom Clinical Report",
-    "patient": "Priya S., 26 yrs",
+    "patient": "{name}, 26 yrs",
     "tracking": "Adult (Regular tracking)",
     "loggedInterval": "LOGGED INTERVAL",
     "loggedValue": "3 Cycles (Aug–Oct)",

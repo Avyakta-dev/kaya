@@ -1,24 +1,12 @@
 import { useState, useRef, useCallback } from 'react';
 
 const VOICE_STRINGS = {
-  en: {
-    recording: 'Recording...',
-    permissionDenied: 'Microphone access denied. Log by tapping instead.',
-    error: 'Something went wrong. Please try again.',
-  },
-  kn: {
-    recording: 'ಧ್ವನಿ ಮುಗಿಸುವಿಕೆ...',
-    permissionDenied: 'ಮೈಕ್ರೋಫೋನ್ ಪ್ರವೇಶ ನಿರಾಕರಿಸಲಾಗಿದೆ. ಬದಲಾಗಿ ಟ್ಯಾಪ್ ಮಾಡಿ.',
-    error: 'ಏನೋ ತಪ್ಪಾಗಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',
-  },
-  hi: {
-    recording: 'रिकॉर्डिंग...',
-    permissionDenied: 'माइक्रोफोन एक्सेस निषेधित। इसके बजाय टैप करें।',
-    error: 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।',
-  },
+  recording: 'Recording...',
+  permissionDenied: 'Microphone access denied. Log by tapping instead.',
+  error: 'Something went wrong. Please try again.',
 };
 
-export function useVoiceRecorder(language = 'en') {
+export function useVoiceRecorder() {
   const [state, setState] = useState('idle');
   const [audioData, setAudioData] = useState(null);
   const [mimeType, setMimeType] = useState(null);
@@ -115,14 +103,14 @@ export function useVoiceRecorder(language = 'en') {
     } catch (err) {
       console.error('Recording error:', err);
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        setError(VOICE_STRINGS[language]?.permissionDenied || VOICE_STRINGS.en.permissionDenied);
+        setError(VOICE_STRINGS.permissionDenied);
       } else {
-        setError(VOICE_STRINGS[language]?.error || VOICE_STRINGS.en.error);
+        setError(VOICE_STRINGS.error);
       }
       setState('error');
       stopRecording();
     }
-  }, [language, pickMimeType, blobToBase64, stopRecording]);
+  }, [pickMimeType, blobToBase64, stopRecording]);
 
   const reset = useCallback(() => {
     setState('idle');

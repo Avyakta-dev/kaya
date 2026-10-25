@@ -42,3 +42,97 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.animate-shake {
+  animation: shake 0.35s ease-in-out;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Print styles for PDF generation */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background-color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #root {
+    background-color: white !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide bottom navigation and other UI elements when printing */
+  nav,
+  button {
+    display: none !important;
+  }
+
+  /* Ensure the report content is visible */
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Report page specific print styles */
+  main article {
+    box-shadow: none !important;
+    border: 2px solid black !important;
+    page-break-inside: avoid;
+    margin: 0 !important;
+  }
+
+  /* Remove backgrounds for cleaner print */
+  .bg-[#f9f9f9] {
+    background-color: white !important;
+  }
+
+  /* Remove the title before the report to avoid blank page */
+  main::before {
+    display: none !important;
+  }
+
+  /* Ensure text is black for printing */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Force single page print with minimal margins */
+  @page {
+    size: auto;
+    margin: 5mm;
+  }
+
+  /* Prevent page breaks within the report */
+  section,
+  article,
+  div {
+    page-break-inside: avoid !important;
+  }
+
+  /* Remove scaling to avoid gaps */
+  main > div {
+    transform: none !important;
+  }
+}

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kaya - Insights</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400..900;1,6..12,400..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed": "#ffdbcf",
+            "on-tertiary-fixed": "#2a1710",
+            "outline-variant": "#dcc0bc",
+            "primary-container": "#ee8070",
+            "on-tertiary-container": "#483129",
+            "surface-container": "#eeeeee",
+            "surface-container-high": "#e8e8e8",
+            "primary": "#9d4235",
+            "surface-tint": "#9d4235",
+            "tertiary": "#74584f",
+            "on-primary-fixed": "#410000",
+            "outline": "#89726e",
+            "on-secondary-fixed": "#370e02",
+            "inverse-surface": "#303030",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f3f3f3",
+            "on-tertiary": "#ffffff",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#e3bfb3",
+            "primary-fixed-dim": "#ffb4a8",
+            "on-surface-variant": "#56423f",
+            "secondary-container": "#feb198",
+            "on-surface": "#1b1b1b",
+            "on-primary-container": "#681a12",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface-bright": "#f9f9f9",
+            "on-background": "#1b1b1b",
+            "primary-fixed": "#ffdad5",
+            "on-secondary-container": "#79422e",
+            "inverse-on-surface": "#f1f1f1",
+            "on-tertiary-fixed-variant": "#5a4138",
+            "inverse-primary": "#ffb4a8",
+            "on-error": "#ffffff",
+            "tertiary-fixed": "#ffdbcf",
+            "tertiary-container": "#b9988d",
+            "secondary-fixed-dim": "#ffb59c",
+            "surface-container-highest": "#e2e2e2",
+            "on-secondary-fixed-variant": "#6d3826",
+            "surface-dim": "#dadada",
+            "on-primary-fixed-variant": "#7e2b20",
+            "surface-variant": "#e2e2e2",
+            "surface-container-lowest": "#ffffff",
+            "surface": "#f9f9f9",
+            "background": "#f9f9f9",
+            "error-container": "#ffdad6",
+            "secondary": "#894f3b"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin": "1.25rem",
+            "space-lg": "1.5rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-xl": "2rem",
+            "space-xs": "0.25rem",
+            "gutter": "1rem"
+          },
+          "fontFamily": {
+            "body-lg": ["Nunito Sans"],
+            "display": ["Nunito Sans"],
+            "label-md": ["Nunito Sans"],
+            "body-md": ["Nunito Sans"],
+            "body-sm": ["Nunito Sans"],
+            "headline-lg": ["Nunito Sans"],
+            "label-sm": ["Nunito Sans"],
+            "headline-md": ["Nunito Sans"],
+            "headline-sm": ["Nunito Sans"],
+            "label-lg": ["Nunito Sans"]
+          },
+          "fontSize": {
+            "body-lg": ["17px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "display": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "800" }],
+            "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "600" }],
+            "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "900" }],
+            "headline-md": ["24px", { "lineHeight": "30px", "fontWeight": "800" }],
+            "headline-sm": ["20px", { "lineHeight": "26px", "fontWeight": "700" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "800" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface min-h-screen flex justify-center selection:bg-primary-container selection:text-on-surface antialiased">
+<!-- Mobile Container: 390px fixed width target layout -->
+<div class="w-full max-w-[390px] min-h-screen bg-surface-container-lowest flex flex-col relative pb-[90px] border-x-[2.5px] border-on-surface">
+<!-- TopAppBar (from Shared Components JSON) -->
+<header class="bg-surface-container-lowest text-on-surface w-full px-margin py-space-sm border-b-[2.5px] border-on-surface shadow-[0px_4px_0px_#000000] sticky top-0 z-40">
+<div class="flex justify-between items-center w-full">
+<!-- Brand & Context Anchor -->
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-full bg-primary-container border-[2.5px] border-on-surface flex items-center justify-center shadow-[2px_2px_0px_#000000]">
+<span class="material-symbols-outlined text-[18px] text-on-surface" data-icon="spa">spa</span>
+</div>
+<div class="flex items-baseline gap-1.5 ml-1">
+<span class="text-headline-md font-headline-md font-black tracking-tight text-on-surface">Kaya</span>
+<span class="text-label-md font-label-md text-primary font-extrabold tracking-wide uppercase">· Insights</span>
+</div>
+</div>
+<!-- Trailing Multilingual Action Pill -->
+<button class="bg-surface-container-lowest border-[2.5px] border-on-surface px-space-sm py-1 rounded-full text-label-sm font-label-sm text-on-surface shadow-[2px_2px_0px_#000000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all">
+          EN | ಕನ್ನಡ | हिं
+        </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-margin pt-space-md space-y-space-lg">
+<!-- Timeframe Segmented Control Filter -->
+<section aria-label="Timeframe selection">
+<div class="bg-surface-container-lowest border-[2.5px] border-on-surface p-1.5 rounded-full shadow-[4px_4px_0px_#000000] flex items-center justify-between gap-1">
+<!-- 1 Month -->
+<button class="flex-1 py-1.5 px-space-xs rounded-full text-center text-label-md font-label-md text-on-surface bg-surface-container-lowest hover:bg-surface-container-low border-[2px] border-transparent transition-all">
+            1 Month
+          </button>
+<!-- 3 Months (Selected) -->
+<button class="flex-1 py-1.5 px-space-xs rounded-full text-center text-label-md font-label-md text-on-surface bg-primary-container border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] font-black">
+            3 Months
+          </button>
+<!-- 6 Months -->
+<button class="flex-1 py-1.5 px-space-xs rounded-full text-center text-label-md font-label-md text-on-surface bg-surface-container-lowest hover:bg-surface-container-low border-[2px] border-transparent transition-all">
+            6 Months
+          </button>
+</div>
+</section>
+<!-- Cycle Length Trend Chart Card -->
+<section class="bg-surface-container-lowest rounded-[24px] border-[2.5px] border-on-surface p-space-md shadow-[4px_4px_0px_#000000] relative">
+<!-- Card Header with Average Badge -->
+<div class="flex items-start justify-between gap-2 mb-space-xs">
+<div>
+<h2 class="text-headline-sm font-headline-sm font-black text-on-surface leading-tight">Cycle Length History</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant font-bold mt-0.5">Last 3 cycles: Aug, Sep, Oct</p>
+</div>
+<div class="bg-secondary-fixed border-[2.5px] border-on-surface rounded-full px-2.5 py-1 shadow-[2px_2px_0px_#000000] flex-shrink-0">
+<span class="text-label-sm font-label-sm font-black text-on-surface">Avg: 31 days</span>
+</div>
+</div>
+<!-- Chart Visualization Container -->
+<div class="mt-space-md relative bg-surface-container-low rounded-[16px] border-[2.5px] border-on-surface p-space-sm pt-4">
+<!-- Chart Normal Range Legend Header -->
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant mb-2 px-1">
+<span class="font-extrabold text-[10px] tracking-wide">CYCLE LENGTH (DAYS)</span>
+<div class="flex items-center gap-1.5 bg-surface-container-lowest px-2 py-0.5 rounded-full border-[1.5px] border-on-surface">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-fixed border border-on-surface inline-block"></span>
+<span class="text-[10px] font-black text-on-surface">Typical range (24–38d)</span>
+</div>
+</div>
+<!-- Structured SVG Neubrutalist Chart -->
+<div class="w-full h-44 relative">
+<svg class="w-full h-full overflow-visible" fill="none" viewbox="0 0 310 145" xmlns="http://www.w3.org/2000/svg">
+<!-- Horizontal Reference Gridlines -->
+<line opacity="0.3" stroke="#1b1b1b" stroke-dasharray="3 3" stroke-width="1" x1="30" x2="300" y1="20" y2="20"></line>
+<line opacity="0.3" stroke="#1b1b1b" stroke-dasharray="3 3" stroke-width="1" x1="30" x2="300" y1="65" y2="65"></line>
+<line opacity="0.3" stroke="#1b1b1b" stroke-dasharray="3 3" stroke-width="1" x1="30" x2="300" y1="110" y2="110"></line>
+<!-- Y-Axis Label Numbers -->
+<text class="text-[11px] font-bold" fill="#1b1b1b" x="5" y="24">38d</text>
+<text class="text-[11px] font-bold" fill="#1b1b1b" x="5" y="69">31d</text>
+<text class="text-[11px] font-bold" fill="#1b1b1b" x="5" y="114">24d</text>
+<!-- Reference Typical Window Shaded Band (24-38d) -->
+<rect fill="#ffdbcf" fill-opacity="0.45" height="90" rx="8" stroke="#1b1b1b" stroke-dasharray="4 2" stroke-width="1.5" width="265" x="35" y="20"></rect>
+<!-- Trend Line Backdrop Offset Shadow -->
+<path d="M 65 92 L 165 30 L 265 72" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.5" transform="translate(2, 2)"></path>
+<!-- Primary Trend Line (Coral) -->
+<path d="M 65 92 L 165 30 L 265 72" stroke="#ee8070" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<!-- Data Node 1: Aug (28 days) -->
+<g transform="translate(65, 92)">
+<circle cx="2" cy="2" fill="#000000" r="8"></circle>
+<circle cx="0" cy="0" fill="#ee8070" r="7" stroke="#000000" stroke-width="2.5"></circle>
+<rect fill="#ffffff" height="18" rx="6" stroke="#000000" stroke-width="2" width="34" x="-17" y="-28"></rect>
+<text fill="#1b1b1b" font-size="10" font-weight="900" text-anchor="middle" x="0" y="-15">28d</text>
+</g>
+<!-- Data Node 2: Sep (37 days) -->
+<g transform="translate(165, 30)">
+<circle cx="2" cy="2" fill="#000000" r="8"></circle>
+<circle cx="0" cy="0" fill="#ee8070" r="7" stroke="#000000" stroke-width="2.5"></circle>
+<rect fill="#ffffff" height="18" rx="6" stroke="#000000" stroke-width="2" width="34" x="-17" y="-28"></rect>
+<text fill="#1b1b1b" font-size="10" font-weight="900" text-anchor="middle" x="0" y="-15">37d</text>
+</g>
+<!-- Data Node 3: Oct (30 days) -->
+<g transform="translate(265, 72)">
+<circle cx="2" cy="2" fill="#000000" r="8"></circle>
+<circle cx="0" cy="0" fill="#ee8070" r="7" stroke="#000000" stroke-width="2.5"></circle>
+<rect fill="#ffffff" height="18" rx="6" stroke="#000000" stroke-width="2" width="34" x="-17" y="-28"></rect>
+<text fill="#1b1b1b" font-size="10" font-weight="900" text-anchor="middle" x="0" y="-15">30d</text>
+</g>
+<!-- X-Axis Baseline -->
+<line stroke="#000000" stroke-width="2" x1="35" x2="300" y1="124" y2="124"></line>
+<!-- X-Axis Labels -->
+<text fill="#1b1b1b" font-size="11" font-weight="800" text-anchor="middle" x="65" y="140">Aug</text>
+<text fill="#1b1b1b" font-size="11" font-weight="800" text-anchor="middle" x="165" y="140">Sep</text>
+<text fill="#1b1b1b" font-size="11" font-weight="800" text-anchor="middle" x="265" y="140">Oct</text>
+</svg>
+</div>
+</div>
+<!-- Summary Chip Below Chart -->
+<div class="mt-space-md bg-surface-container-lowest border-[2.5px] border-on-surface rounded-[14px] p-2.5 flex items-center gap-2 shadow-[2px_2px_0px_#000000]">
+<span class="material-symbols-outlined text-primary text-[20px] flex-shrink-0" data-icon="compare_arrows">compare_arrows</span>
+<p class="text-body-sm font-body-sm font-bold text-on-surface leading-tight">
+            Variation: <span class="font-extrabold text-primary">7–9 days</span> difference across cycles
+          </p>
+</div>
+</section>
+<!-- 3 Insight Cards -->
+<section aria-label="Cycle Insights" class="space-y-space-md">
+<!-- Insight Card 1 (Light Peach #F6D1C5) -->
+<article class="bg-[#F6D1C5] rounded-[24px] border-[2.5px] border-on-surface p-space-md shadow-[4px_4px_0px_#000000] relative">
+<!-- Card Header / Pill Icon & Tag -->
+<div class="flex items-center gap-space-sm mb-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface flex items-center justify-center shadow-[2px_2px_0px_#000000] flex-shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface" data-icon="schedule">schedule</span>
+</div>
+<div class="bg-surface-container-lowest border-[2px] border-on-surface px-3 py-0.5 rounded-full shadow-[2px_2px_0px_#000000]">
+<span class="text-label-sm font-label-sm font-black text-on-surface">Cycle Irregularity</span>
+</div>
+</div>
+<!-- Plain Language Finding -->
+<p class="text-body-md font-body-md font-bold text-on-surface leading-snug">
+            Your cycle length shifted from 28 to 37 days this quarter. Fluctuations above 7 days can point to hormonal changes or stress.
+          </p>
+<!-- Doctor Note Footer Pill -->
+<div class="mt-space-md pt-space-xs">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest border-[2.5px] border-on-surface rounded-full px-3.5 py-1.5 shadow-[2px_2px_0px_#000000]">
+<span class="text-sm">🩺</span>
+<span class="text-label-sm font-label-sm font-black text-on-surface">Worth discussing with a doctor</span>
+</div>
+</div>
+</article>
+<!-- Insight Card 2 (Peach #F4A990) -->
+<article class="bg-[#F4A990] rounded-[24px] border-[2.5px] border-on-surface p-space-md shadow-[4px_4px_0px_#000000] relative">
+<!-- Card Header / Pill Icon & Tag -->
+<div class="flex items-center gap-space-sm mb-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface flex items-center justify-center shadow-[2px_2px_0px_#000000] flex-shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface" data-icon="bolt">bolt</span>
+</div>
+<div class="bg-surface-container-lowest border-[2px] border-on-surface px-3 py-0.5 rounded-full shadow-[2px_2px_0px_#000000]">
+<span class="text-label-sm font-label-sm font-black text-on-surface">Symptom Pattern</span>
+</div>
+</div>
+<!-- Plain Language Finding -->
+<p class="text-body-md font-body-md font-bold text-on-surface leading-snug">
+            Cramps reached 4/5 severity for 3 consecutive days in Luteal phase, accompanied by fatigue.
+          </p>
+<!-- Doctor Note Footer Pill -->
+<div class="mt-space-md pt-space-xs">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest border-[2.5px] border-on-surface rounded-full px-3.5 py-1.5 shadow-[2px_2px_0px_#000000]">
+<span class="text-sm">🩺</span>
+<span class="text-label-sm font-label-sm font-black text-on-surface">Worth discussing with a doctor</span>
+</div>
+</div>
+</article>
+<!-- Insight Card 3 (Light Peach #F6D1C5) -->
+<article class="bg-[#F6D1C5] rounded-[24px] border-[2.5px] border-on-surface p-space-md shadow-[4px_4px_0px_#000000] relative">
+<!-- Card Header / Pill Icon & Tag -->
+<div class="flex items-center gap-space-sm mb-space-sm">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface flex items-center justify-center shadow-[2px_2px_0px_#000000] flex-shrink-0">
+<span class="material-symbols-outlined text-[20px] text-on-surface" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="bg-surface-container-lowest border-[2px] border-on-surface px-3 py-0.5 rounded-full shadow-[2px_2px_0px_#000000]">
+<span class="text-label-sm font-label-sm font-black text-on-surface">Luteal Phase Length</span>
+</div>
+</div>
+<!-- Plain Language Finding -->
+<p class="text-body-md font-body-md font-bold text-on-surface leading-snug">
+            Your luteal phase averaged 10 days, which is shorter than typical 12–14 day windows.
+          </p>
+<!-- Doctor Note Footer Pill -->
+<div class="mt-space-md pt-space-xs">
+<div class="inline-flex items-center gap-2 bg-surface-container-lowest border-[2.5px] border-on-surface rounded-full px-3.5 py-1.5 shadow-[2px_2px_0px_#000000]">
+<span class="text-sm">🩺</span>
+<span class="text-label-sm font-label-sm font-black text-on-surface">Worth discussing with a doctor</span>
+</div>
+</div>
+</article>
+</section>
+<!-- Bottom Action CTA Section -->
+<section class="pt-space-xs pb-space-lg text-center space-y-space-xs">
+<button class="w-full bg-primary-container border-[2.5px] border-on-surface text-on-surface py-3.5 px-space-lg rounded-full font-black text-label-lg shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all">
+<span class="material-symbols-outlined text-[22px]" data-icon="picture_as_pdf">picture_as_pdf</span>
+<span>Export to Doctor-Ready PDF</span>
+</button>
+<div class="flex items-center justify-center gap-1.5 text-body-sm font-body-sm text-on-surface-variant font-bold pt-1">
+<span class="text-[13px]">🔒</span>
+<span>End-to-end encrypted on your device</span>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Shared Component JSON - Insights is Active) -->
+<nav class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] z-50 flex justify-around items-center px-gutter py-space-sm bg-surface-container-lowest border-t-[2.5px] border-on-surface shadow-[0px_-4px_0px_#000000] rounded-t-lg">
+<!-- Tab 1: Home (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="home">home</span>
+<span class="text-label-sm font-label-sm font-bold mt-0.5">Home</span>
+</a>
+<!-- Tab 2: Log (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="edit_calendar">edit_calendar</span>
+<span class="text-label-sm font-label-sm font-bold mt-0.5">Log</span>
+</a>
+<!-- Tab 3: Insights (ACTIVE - Mandated styling from JSON) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-space-md py-space-xs border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none" href="#">
+<span class="material-symbols-outlined text-[24px] text-on-surface" data-icon="insights" data-weight="fill" style="font-variation-settings: 'FILL' 1;">insights</span>
+<span class="text-label-sm font-label-sm font-black text-on-surface mt-0.5">Insights</span>
+</a>
+<!-- Tab 4: Report (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[24px]" data-icon="description">description</span>
+<span class="text-label-sm font-label-sm font-bold mt-0.5">Report</span>
+</a>
+</nav>
+</div>
+</body></html>

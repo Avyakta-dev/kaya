@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-surface" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kaya - Choose Language</title>
+<!-- Google Fonts: Nunito Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;1,6..12,600;1,800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#ffdbcf",
+            "on-error-container": "#93000a",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f3f3f3",
+            "on-primary-container": "#681a12",
+            "on-tertiary-container": "#483129",
+            "surface-bright": "#f9f9f9",
+            "on-secondary": "#ffffff",
+            "outline": "#89726e",
+            "on-tertiary-fixed": "#2a1710",
+            "outline-variant": "#dcc0bc",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#5a4138",
+            "secondary-fixed-dim": "#ffb59c",
+            "surface-container-high": "#e8e8e8",
+            "on-surface": "#1b1b1b",
+            "on-error": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#eeeeee",
+            "surface-dim": "#dadada",
+            "on-primary-fixed-variant": "#7e2b20",
+            "on-surface-variant": "#56423f",
+            "inverse-primary": "#ffb4a8",
+            "on-background": "#1b1b1b",
+            "primary-fixed-dim": "#ffb4a8",
+            "inverse-on-surface": "#f1f1f1",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#370e02",
+            "inverse-surface": "#303030",
+            "surface-container-highest": "#e2e2e2",
+            "on-secondary-container": "#79422e",
+            "tertiary-fixed-dim": "#e3bfb3",
+            "secondary-container": "#feb198",
+            "tertiary": "#74584f",
+            "on-primary-fixed": "#410000",
+            "background": "#f9f9f9",
+            "secondary-fixed": "#ffdbcf",
+            "primary-fixed": "#ffdad5",
+            "primary-container": "#ee8070",
+            "surface-tint": "#9d4235",
+            "surface": "#f9f9f9",
+            "primary": "#9d4235",
+            "surface-variant": "#e2e2e2",
+            "secondary": "#894f3b",
+            "on-secondary-fixed-variant": "#6d3826",
+            "error-container": "#ffdad6",
+            "tertiary-container": "#b9988d"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "margin": "1.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Nunito Sans"],
+            "body-lg": ["Nunito Sans"],
+            "label-md": ["Nunito Sans"],
+            "headline-sm": ["Nunito Sans"],
+            "body-sm": ["Nunito Sans"],
+            "display": ["Nunito Sans"],
+            "headline-lg": ["Nunito Sans"],
+            "label-sm": ["Nunito Sans"],
+            "body-md": ["Nunito Sans"],
+            "label-lg": ["Nunito Sans"]
+          },
+          "fontSize": {
+            "headline-md": ["24px", { "lineHeight": "30px", "fontWeight": "800" }],
+            "body-lg": ["17px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "800" }],
+            "headline-sm": ["20px", { "lineHeight": "26px", "fontWeight": "700" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "600" }],
+            "display": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+            "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "900" }],
+            "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "800" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      display: inline-block;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      vertical-align: middle;
+    }
+    /* Neubrutalist tap physics micro-interactions */
+    .tactile-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #000000;
+    }
+    .lang-card {
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .lang-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #000000;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col items-center justify-start p-0 m-0">
+<!-- Mobile Canvas Frame: 4-column constraint, 448px max mobile standard -->
+<main class="w-full max-w-md mx-auto min-h-screen flex flex-col justify-between px-margin pt-space-md pb-space-lg">
+<!-- Top Bar: Navigation, Brand Anchor, Step Counter -->
+<div>
+<header class="flex items-center justify-between w-full pt-space-xs pb-space-md">
+<!-- Back Button: Round white pill with 2.5px outline & shadow -->
+<button aria-label="Go back" class="tactile-btn w-11 h-11 bg-surface-container-lowest rounded-full border-[2.5px] border-on-surface shadow-[4px_4px_0px_#000000] flex items-center justify-center transition-all cursor-pointer" type="button">
+<span class="material-symbols-outlined text-on-surface" data-icon="arrow_back" style="font-variation-settings: 'FILL' 0, 'wght' 700;">arrow_back</span>
+</button>
+<!-- Kaya Logo / Title in Center -->
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary-container" data-icon="spa" style="font-variation-settings: 'FILL' 1; font-size: 26px;">spa</span>
+<span class="font-headline-md text-headline-md font-black tracking-tight text-on-surface">Kaya</span>
+</div>
+<!-- Step 3 of 3 Pill -->
+<div class="px-space-md py-space-xs bg-surface-container-lowest border-[2.5px] border-on-surface rounded-full shadow-[2px_2px_0px_#000000] flex items-center justify-center">
+<span class="font-label-md text-label-md text-on-surface font-extrabold">Step 3 of 3</span>
+</div>
+</header>
+<!-- Progress Indicator: 3 dots (Step 1 & 2 completed coral dots, Step 3 active coral pill) -->
+<section aria-label="Onboarding Progress" class="flex items-center gap-space-sm pt-space-xs pb-space-lg">
+<!-- Step 1 Complete -->
+<div class="h-3 w-3 rounded-full bg-primary-container border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000]" title="Step 1 completed"></div>
+<!-- Step 2 Complete -->
+<div class="h-3 w-3 rounded-full bg-primary-container border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000]" title="Step 2 completed"></div>
+<!-- Step 3 Active Pill -->
+<div class="h-3 w-10 rounded-full bg-primary-container border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000]" title="Step 3 current"></div>
+</section>
+<!-- Title & Subtitle Section -->
+<section class="space-y-space-xs mb-space-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-surface font-extrabold tracking-tight">
+          Choose your language
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant font-semibold leading-relaxed">
+          Track, read insights, and voice-log in the language you feel most comfortable with.
+        </p>
+</section>
+<!-- Big Interactive Language Pills / Cards -->
+<section aria-label="Select preferred language" class="space-y-space-md" role="radiogroup">
+<!-- Language 1: English (SELECTED) -->
+<div aria-checked="true" class="lang-card relative w-full bg-primary-container border-[2.5px] border-on-surface rounded-full p-space-md pl-space-lg pr-space-md shadow-[4px_4px_0px_#000000] flex items-center justify-between cursor-pointer" role="radio" tabindex="0">
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-headline-sm font-extrabold text-on-surface">English</span>
+<span class="font-body-sm text-body-sm font-bold text-on-primary-container opacity-90">Default language</span>
+</div>
+<!-- Selected Checkmark Pill -->
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface" data-icon="check" style="font-variation-settings: 'FILL' 1, 'wght' 800; font-size: 22px;">check</span>
+</div>
+</div>
+<!-- Language 2: Kannada -->
+<div aria-checked="false" class="lang-card relative w-full bg-[#F6D1C5] border-[2.5px] border-on-surface rounded-full p-space-md pl-space-lg pr-space-md shadow-[4px_4px_0px_#000000] flex items-center justify-between cursor-pointer hover:bg-tertiary-fixed transition-colors" role="radio" tabindex="0">
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-headline-sm font-extrabold text-on-surface">ಕನ್ನಡ (Kannada)</span>
+<span class="font-body-sm text-body-sm font-bold text-on-surface-variant">ಧ್ವನಿ ಲಾಗಿಂಗ್ ಮತ್ತು ವರದಿಗಳು</span>
+</div>
+<!-- Radio circle unchecked -->
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center flex-shrink-0">
+<div class="w-3.5 h-3.5 rounded-full bg-transparent"></div>
+</div>
+</div>
+<!-- Language 3: Hindi -->
+<div aria-checked="false" class="lang-card relative w-full bg-secondary-container border-[2.5px] border-on-surface rounded-full p-space-md pl-space-lg pr-space-md shadow-[4px_4px_0px_#000000] flex items-center justify-between cursor-pointer hover:bg-secondary-fixed transition-colors" role="radio" tabindex="0">
+<div class="flex flex-col justify-center">
+<span class="font-headline-sm text-headline-sm font-extrabold text-on-surface">हिंदी (Hindi)</span>
+<span class="font-body-sm text-body-sm font-bold text-on-secondary-container">आवाज़ से लॉगिंग और रिपोर्ट्स</span>
+</div>
+<!-- Radio circle unchecked -->
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center flex-shrink-0">
+<div class="w-3.5 h-3.5 rounded-full bg-transparent"></div>
+</div>
+</div>
+</section>
+<!-- Voice Preview Callout: Soft neubrutalist card in white -->
+<section class="mt-space-lg p-space-md bg-surface-container-lowest border-[2.5px] border-on-surface rounded-[24px] shadow-[4px_4px_0px_#000000] flex items-center gap-space-md">
+<!-- Voice action badge icon -->
+<div class="w-12 h-12 rounded-full bg-primary-container border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface" data-icon="mic" style="font-variation-settings: 'FILL' 1; font-size: 26px;">mic</span>
+</div>
+<!-- Speech Bubble Text -->
+<div class="relative bg-surface border-[2.5px] border-on-surface rounded-2xl p-space-sm pl-space-md pr-space-md text-left shadow-[2px_2px_0px_#000000]">
+<p class="font-body-sm text-body-sm text-on-surface font-extrabold leading-tight">
+            You can speak naturally in any of these languages to log symptoms anytime!
+          </p>
+</div>
+</section>
+</div>
+<!-- Bottom Sticky/Docked Action Area: No navigation tabs in focused onboarding flow -->
+<footer class="pt-space-lg w-full">
+<button class="tactile-btn w-full bg-primary-container border-[2.5px] border-on-surface rounded-full py-4 px-space-lg shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-space-sm text-on-surface transition-all cursor-pointer" type="button">
+<span class="font-headline-sm text-headline-sm font-black text-on-surface tracking-wide">Continue to Kaya</span>
+<span class="material-symbols-outlined text-on-surface" data-icon="arrow_forward" style="font-variation-settings: 'FILL' 0, 'wght' 800; font-size: 24px;">arrow_forward</span>
+</button>
+</footer>
+</main>
+<script>
+    // Lightweight tactile selection micro-interaction
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.lang-card');
+      
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          cards.forEach(c => {
+            c.setAttribute('aria-checked', 'false');
+            const indicator = c.querySelector('.rounded-full:last-child');
+            if (indicator) {
+              indicator.innerHTML = '<div class="w-3.5 h-3.5 rounded-full bg-transparent"></div>';
+            }
+          });
+          
+          card.setAttribute('aria-checked', 'true');
+          const indicator = card.querySelector('.rounded-full:last-child');
+          if (indicator) {
+            indicator.innerHTML = '<span class="material-symbols-outlined text-on-surface" data-icon="check" style="font-variation-settings: \'FILL\' 1, \'wght\' 800; font-size: 22px;">check</span>';
+          }
+        });
+      });
+    });
+  </script>
+</body></html>
