@@ -15,6 +15,7 @@ function App() {
   useEffect(() => {
     // Check if user has completed onboarding
     const userId = localStorage.getItem('userId');
+    console.log('App mounted, userId:', userId, 'isOnboarded:', !!userId);
     setIsOnboarded(!!userId);
     setLoading(false);
   }, []);

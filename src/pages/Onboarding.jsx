@@ -8,7 +8,6 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
-  const [age, setAge] = useState('');
   const [lifeStage, setLifeStage] = useState('adult');
   const [isLoading, setIsLoading] = useState(false);
   const [nameError, setNameError] = useState(false);
@@ -17,7 +16,6 @@ export default function Onboarding() {
     // For demo: Always show onboarding by clearing localStorage
     localStorage.removeItem('userId');
     localStorage.removeItem('userName');
-    localStorage.removeItem('userAge');
     localStorage.removeItem('userLifeStage');
     localStorage.removeItem('userLogs');
     setStep(1);
@@ -25,6 +23,8 @@ export default function Onboarding() {
   }, []);
 
   const handleContinue = async () => {
+    console.log('handleContinue called, step:', step);
+
     if (step === 1 && !name.trim()) {
       // Don't allow proceeding without a name
       setNameError(true);
@@ -32,35 +32,34 @@ export default function Onboarding() {
       return;
     }
 
-    if (step === 2 && !age.trim()) {
-      // Don't allow proceeding without age
-      return;
-    }
-
-    if (step < 3) {
+    if (step < 2) {
+      console.log('Moving to step 2');
       setStep(step + 1);
     } else {
+      console.log('Finishing onboarding, navigating to home');
       // Demo mode: Skip API registration and use localStorage
       setIsLoading(true);
       try {
         // Simulate API delay for demo purposes
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Use a fixed demo user ID
+        // Use a fixed demo user ID for Priya
         const demoUserId = 'demo-user-priya';
         localStorage.setItem('userId', demoUserId);
         localStorage.setItem('userName', name);
-        localStorage.setItem('userAge', age);
+        localStorage.setItem('userAge', '19'); // Demo age for Priya
         localStorage.setItem('userLifeStage', lifeStage);
 
-        console.log('Demo user registered:', { name, age, lifeStage });
+        console.log('Demo user registered:', { name, age: 19, lifeStage });
+        console.log('localStorage userId:', localStorage.getItem('userId'));
       } catch (error) {
         console.error('Failed to register user:', error);
       } finally {
         setIsLoading(false);
       }
 
-      navigate('/');
+      console.log('Calling navigate to /');
+      window.location.href = '/';
     }
   };
 
@@ -90,13 +89,13 @@ export default function Onboarding() {
           </div>
           <div className="px-4 py-1 rounded-full bg-white border-[2.5px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-center">
             <span className="text-[11px] font-black uppercase tracking-wider text-black">
-              {t(`onboarding.name.step`).replace('1', step)}
+              Step {step} of 2
             </span>
           </div>
         </div>
 
         <div className="flex items-center justify-center gap-2 pt-1">
-          {[1, 2, 3].map((s) => (
+          {[1, 2].map((s) => (
             <div
               key={s}
               className={`h-3 rounded-full border-[2.5px] border-black shadow-[2px_2px_0px_#000000] transition-all ${
@@ -220,50 +219,6 @@ export default function Onboarding() {
                   </div>
                 </div>
               ))}
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
-            <div className="text-center space-y-1">
-              <h1 className="text-[30px] font-black text-black tracking-tight">How old are you?</h1>
-              <p className="text-[15px] text-[#56423f] max-w-xs mx-auto leading-relaxed">
-                Enter your age to personalize your cycle tracking experience
-              </p>
-            </div>
-
-            <div className="w-full space-y-4">
-              <div className="flex flex-col gap-1 text-left">
-                <label className="text-[13px] text-black pl-2 flex items-center gap-1.5" htmlFor="user-age-input">
-                  <span className="material-symbols-outlined text-[15px]">cake</span>
-                  Your Age
-                </label>
-                <div className="relative w-full">
-                  <input
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                    className="w-full bg-white text-black text-[20px] border-[2.5px] border-black rounded-full px-6 py-3.5 shadow-[4px_4px_0px_#000000] focus:outline-none focus:border-black focus:shadow-[4px_4px_0px_#000000] focus:ring-0 transition-all placeholder:text-black/40 placeholder:text-[17px] placeholder:italic"
-                    id="user-age-input"
-                    placeholder="Enter your age"
-                    type="number"
-                    min="10"
-                    max="60"
-                  />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center pointer-events-none text-black/40">
-                    <span className="material-symbols-outlined text-[20px]">edit</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-center">
-                <div className="inline-flex items-center gap-1 bg-[#ffdbcf] border-[2.5px] border-black rounded-full px-4 py-1 shadow-[2px_2px_0px_#000000]">
-                  <span className="material-symbols-outlined text-[15px] text-black" style={{ fontVariationSettings: 'FILL 1' }}>
-                    lock
-                  </span>
-                  <span className="text-[11px] font-black text-black">Your information is private</span>
-                </div>
-              </div>
             </div>
           </>
         )}

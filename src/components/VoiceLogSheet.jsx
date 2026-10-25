@@ -115,9 +115,7 @@ export default function VoiceLogSheet({ isOpen, onClose, onConfirm, audioData, m
     setShowSuccess(true);
     setTimeout(() => {
       onClose();
-      if (onNavigateToCalendar) {
-        onNavigateToCalendar();
-      }
+      // Don't navigate to calendar - let the user click the Confirm Save button in Log page
     }, 1500);
   };
 

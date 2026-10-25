@@ -46,8 +46,8 @@ export default function Calendar() {
   const location = useLocation();
 
   const now = new Date();
-  // Demo mode: Set to September 2026 to show Sep-Oct (2 months)
-  const [view, setView] = useState({ year: 2026, month: 8 }); // September = month 8 (0-indexed)
+  // Demo mode: Set to October 2026 (current month)
+  const [view, setView] = useState({ year: 2026, month: 9 }); // October = month 9 (0-indexed)
   const [selected, setSelected] = useState('2026-10-25'); // Today's date in demo (has fatigue log)
   const [cycleLogs, setCycleLogs] = useState([]);
   const [symptomLogs, setSymptomLogs] = useState([]);
@@ -100,8 +100,8 @@ export default function Calendar() {
               { id: 20, user_id: userId, date: '2026-10-25', type: 'fatigue', severity: 3, area: null, source: 'manual', note: 'Low energy' }
             ],
             rules: {
-              currentDay: 22,
-              phase: 'luteal',
+              currentDay: 16,
+              phase: 'ovulation',
               next_period: '2026-11-07',
               avg_length: 30,
               flags: []
@@ -432,7 +432,7 @@ export default function Calendar() {
             onClick={() => navigate('/log')}
             className="w-full bg-[#EE8070] text-black text-[20px] font-black border-[2.5px] border-black shadow-[4px_4px_0px_#000000] rounded-full py-3 px-4 flex items-center justify-center gap-2 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
           >
-            <span className="material-symbols-outlined text-[24px]">add</span>
+            <span className="material-symbols-outlined text-[24px]"></span>
             <span>{t('calendar.addLog')}</span>
           </button>
         </section>
