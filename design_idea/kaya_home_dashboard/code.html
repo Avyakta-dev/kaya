@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kaya - Home Dashboard</title>
+<!-- Google Fonts: Nunito Sans & Indic support fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@600;800&amp;family=Noto+Sans+Kannada:wght@600;800&amp;family=Nunito+Sans:ital,opsz,wght@0,6..12,400..900;1,6..12,400..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-container": "#feb198",
+            "on-secondary-container": "#79422e",
+            "on-primary-fixed-variant": "#7e2b20",
+            "on-background": "#1b1b1b",
+            "secondary-fixed-dim": "#ffb59c",
+            "outline": "#89726e",
+            "outline-variant": "#dcc0bc",
+            "error": "#ba1a1a",
+            "background": "#f9f9f9",
+            "tertiary": "#74584f",
+            "on-primary-container": "#681a12",
+            "on-tertiary-container": "#483129",
+            "inverse-surface": "#303030",
+            "primary-container": "#ee8070",
+            "on-primary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#9d4235",
+            "on-surface": "#1b1b1b",
+            "primary": "#9d4235",
+            "on-tertiary-fixed": "#2a1710",
+            "tertiary-container": "#b9988d",
+            "primary-fixed": "#ffdad5",
+            "surface-container-high": "#e8e8e8",
+            "primary-fixed-dim": "#ffb4a8",
+            "surface-container-low": "#f3f3f3",
+            "on-tertiary-fixed-variant": "#5a4138",
+            "tertiary-fixed": "#ffdbcf",
+            "on-surface-variant": "#56423f",
+            "surface-container-highest": "#e2e2e2",
+            "surface-bright": "#f9f9f9",
+            "on-secondary": "#ffffff",
+            "surface-dim": "#dadada",
+            "on-primary-fixed": "#410000",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "surface": "#f9f9f9",
+            "secondary": "#894f3b",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#ffb4a8",
+            "inverse-on-surface": "#f1f1f1",
+            "on-secondary-fixed": "#370e02",
+            "tertiary-fixed-dim": "#e3bfb3",
+            "surface-variant": "#e2e2e2",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#eeeeee",
+            "on-secondary-fixed-variant": "#6d3826",
+            "secondary-fixed": "#ffdbcf",
+            // Explicit Soft Neubrutalist Core Palette
+            "kaya-white": "#FFFFFF",
+            "kaya-light-peach": "#F6D1C5",
+            "kaya-peach": "#F4A990",
+            "kaya-coral": "#EE8070",
+            "kaya-black": "#000000"
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "margin": "1.25rem",
+            "space-lg": "1.5rem",
+            "gutter": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem"
+          },
+          fontFamily: {
+            "display": ["Nunito Sans", "Noto Sans Kannada", "Noto Sans Devanagari", "sans-serif"],
+            "body-lg": ["Nunito Sans", "sans-serif"],
+            "label-lg": ["Nunito Sans", "sans-serif"],
+            "body-md": ["Nunito Sans", "sans-serif"],
+            "label-sm": ["Nunito Sans", "sans-serif"],
+            "label-md": ["Nunito Sans", "sans-serif"],
+            "body-sm": ["Nunito Sans", "sans-serif"],
+            "headline-lg": ["Nunito Sans", "sans-serif"],
+            "headline-md": ["Nunito Sans", "sans-serif"],
+            "headline-sm": ["Nunito Sans", "sans-serif"]
+          },
+          fontSize: {
+            "display": ["38px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "900" }],
+            "body-lg": ["17px", { lineHeight: "24px", fontWeight: "600" }],
+            "label-lg": ["15px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "800" }],
+            "body-md": ["15px", { lineHeight: "22px", fontWeight: "600" }],
+            "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.04em", fontWeight: "900" }],
+            "label-md": ["13px", { lineHeight: "18px", letterSpacing: "0.02em", fontWeight: "800" }],
+            "body-sm": ["13px", { lineHeight: "18px", fontWeight: "600" }],
+            "headline-lg": ["30px", { lineHeight: "36px", letterSpacing: "-0.01em", fontWeight: "800" }],
+            "headline-md": ["24px", { lineHeight: "30px", fontWeight: "800" }],
+            "headline-sm": ["20px", { lineHeight: "26px", fontWeight: "700" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    /* Material Symbols base styling */
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-block;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: 'liga';
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Soft Neubrutalist Utility Shadow Presets */
+    .brutal-shadow-4 {
+      box-shadow: 4px 4px 0px #000000;
+    }
+    .brutal-shadow-3 {
+      box-shadow: 3px 3px 0px #000000;
+    }
+    .brutal-shadow-2 {
+      box-shadow: 2px 2px 0px #000000;
+    }
+    .brutal-shadow-dock {
+      box-shadow: 0px -4px 0px #000000;
+    }
+
+    /* Physical click stamp interaction */
+    .brutal-press:active {
+      transform: translate(3px, 3px);
+      box-shadow: 0px 0px 0px #000000 !important;
+    }
+
+    /* Prevent default horizontal scrollbar styling on chips */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-kaya-white text-on-surface antialiased min-h-screen flex justify-center selection:bg-kaya-coral selection:text-kaya-black font-body-md text-body-md">
+<!-- Mobile Screen Canvas (390px width container) -->
+<main class="w-full max-w-[390px] min-h-screen bg-kaya-white relative flex flex-col pb-32">
+<!-- 1. TOP HEADER (Shared Component TopAppBar + Language Toggle) -->
+<header class="w-full px-margin pt-5 pb-3 flex items-center justify-between sticky top-0 z-40 bg-kaya-white">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-kaya-coral border-[2.5px] border-black brutal-shadow-2 flex items-center justify-center">
+<span class="material-symbols-outlined text-kaya-black text-[22px]" data-icon="spa">spa</span>
+</div>
+<div>
+<h1 class="text-headline-sm font-headline-sm text-kaya-black font-black tracking-tight leading-none">Hi Priya 👋</h1>
+<p class="text-label-sm font-label-sm text-kaya-black tracking-wide font-extrabold mt-0.5 opacity-80">Cycle Day 22</p>
+</div>
+</div>
+<!-- Language Toggle Pill -->
+<div class="inline-flex items-center px-2.5 py-1.5 rounded-full bg-kaya-light-peach border-[2.5px] border-black brutal-shadow-2 text-label-sm font-label-sm text-kaya-black">
+<span class="bg-kaya-coral text-kaya-black px-1.5 py-0.5 rounded-full border-[1.5px] border-black font-black">EN</span>
+<span class="mx-1 text-black font-bold">|</span>
+<span class="font-bold opacity-85 px-0.5">ಕನ್ನಡ</span>
+<span class="mx-1 text-black font-bold">|</span>
+<span class="font-bold opacity-85 px-0.5">हिं</span>
+</div>
+</header>
+<!-- MAIN DASHBOARD CONTENT -->
+<div class="px-margin flex flex-col gap-5 mt-1">
+<!-- 2. HERO CYCLE STATUS RING WIDGET -->
+<section class="w-full bg-kaya-white rounded-[24px] border-[2.5px] border-black brutal-shadow-4 p-5 flex flex-col items-center relative overflow-hidden">
+<!-- Interactive Phase Ring Container -->
+<div class="relative w-56 h-56 flex items-center justify-center my-1">
+<!-- Segmented Cycle SVG Dial -->
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 200 200">
+<!-- Background base circle -->
+<circle cx="100" cy="100" fill="none" r="82" stroke="#FFFFFF" stroke-width="18"></circle>
+<!-- Segment 1: Follicular / Early (Light Peach) -->
+<circle cx="100" cy="100" fill="none" r="82" stroke="#F6D1C5" stroke-dasharray="140 375" stroke-dashoffset="0" stroke-linecap="round" stroke-width="16"></circle>
+<!-- Segment 2: Fertile Window (Peach) -->
+<circle cx="100" cy="100" fill="none" r="82" stroke="#F4A990" stroke-dasharray="120 395" stroke-dashoffset="-145" stroke-linecap="round" stroke-width="16"></circle>
+<!-- Segment 3: Luteal Phase Current Active (Coral) -->
+<circle cx="100" cy="100" fill="none" r="82" stroke="#EE8070" stroke-dasharray="170 345" stroke-dashoffset="-270" stroke-linecap="round" stroke-width="18"></circle>
+<!-- Cycle boundary border lines for soft-neubrutalist contrast -->
+<circle cx="100" cy="100" fill="none" r="91" stroke="#000000" stroke-width="2.5"></circle>
+<circle cx="100" cy="100" fill="none" r="73" stroke="#000000" stroke-width="2.5"></circle>
+</svg>
+<!-- Day Position Tracker Pointer -->
+<div class="absolute top-4 right-10 w-6 h-6 rounded-full bg-kaya-coral border-[2.5px] border-black brutal-shadow-2 flex items-center justify-center">
+<span class="w-2 h-2 rounded-full bg-black"></span>
+</div>
+<!-- Inside Center Ring Content -->
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+<span class="text-label-sm font-label-sm uppercase tracking-wider text-black font-extrabold mb-0.5">CURRENT</span>
+<span class="font-display text-display text-black font-black tracking-tight leading-none mb-1">Day 22</span>
+<!-- Expectation Pill Badge -->
+<div class="mt-2 bg-kaya-light-peach border-[2.5px] border-black rounded-full px-3 py-1 brutal-shadow-2">
+<span class="text-label-sm font-label-sm font-black text-black">Period in 6 days</span>
+</div>
+</div>
+</div>
+<!-- Cycle Ring Legend / Phases -->
+<div class="w-full flex items-center justify-between pt-2 border-t-[2.5px] border-black mt-2 text-label-sm font-label-sm font-bold">
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded-full bg-kaya-coral border-[1.5px] border-black"></span>
+<span class="text-black font-extrabold">Luteal</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded-full bg-kaya-peach border-[1.5px] border-black"></span>
+<span class="text-black font-extrabold">Ovulation</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded-full bg-kaya-light-peach border-[1.5px] border-black"></span>
+<span class="text-black font-extrabold">Follicular</span>
+</div>
+</div>
+</section>
+<!-- 3. QUICK LOGGING & VOICE SECTION -->
+<section class="w-full flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<h2 class="text-headline-sm font-headline-sm font-black text-black">How are you feeling today?</h2>
+<span class="text-label-sm font-label-sm font-extrabold text-black bg-kaya-light-peach border-[2px] border-black rounded-full px-2 py-0.5">Daily Log</span>
+</div>
+<!-- 5 Quick-Log Buttons (Horizontal Flow) -->
+<div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1">
+<!-- 1. Pain -->
+<button class="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-kaya-peach border-[2.5px] border-black brutal-shadow-3 brutal-press transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[19px] text-black" data-icon="sentiment_dissatisfied">sentiment_dissatisfied</span>
+<span class="text-label-md font-label-md font-extrabold text-black">Pain</span>
+</button>
+<!-- 2. Mood -->
+<button class="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-kaya-peach border-[2.5px] border-black brutal-shadow-3 brutal-press transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[19px] text-black" data-icon="mood">mood</span>
+<span class="text-label-md font-label-md font-extrabold text-black">Mood</span>
+</button>
+<!-- 3. Flow -->
+<button class="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-kaya-peach border-[2.5px] border-black brutal-shadow-3 brutal-press transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[19px] text-black" data-icon="water_drop">water_drop</span>
+<span class="text-label-md font-label-md font-extrabold text-black">Flow</span>
+</button>
+<!-- 4. Sleep -->
+<button class="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-kaya-peach border-[2.5px] border-black brutal-shadow-3 brutal-press transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[19px] text-black" data-icon="bedtime">bedtime</span>
+<span class="text-label-md font-label-md font-extrabold text-black">Sleep</span>
+</button>
+<!-- 5. Fatigue -->
+<button class="flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-kaya-peach border-[2.5px] border-black brutal-shadow-3 brutal-press transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[19px] text-black" data-icon="battery_low">battery_low</span>
+<span class="text-label-md font-label-md font-extrabold text-black">Fatigue</span>
+</button>
+</div>
+<!-- Multilingual Voice Assistant Action Banner -->
+<div class="w-full p-3.5 bg-kaya-white rounded-[24px] border-[2.5px] border-black brutal-shadow-4 flex items-center justify-between">
+<div class="flex flex-col pr-2">
+<div class="flex items-center gap-1.5">
+<span class="text-label-md font-label-md font-black text-black">Speak in your language</span>
+<span class="w-2 h-2 rounded-full bg-kaya-coral border-[1.5px] border-black"></span>
+</div>
+<p class="text-body-sm font-body-sm font-bold text-black opacity-85 leading-tight mt-0.5">
+              "ಉದರ ನೋವಿದೆ", "थकान लग रही है", or English
+            </p>
+</div>
+<!-- Prominent Voice Action Mic Button -->
+<button aria-label="Record voice symptom log" class="w-14 h-14 rounded-full bg-kaya-coral border-[2.5px] border-black brutal-shadow-4 brutal-press flex items-center justify-center flex-shrink-0 cursor-pointer">
+<span class="material-symbols-outlined text-kaya-black text-[28px]" data-icon="mic">mic</span>
+</button>
+</div>
+</section>
+<!-- 4. PHASE TIPS CARD -->
+<section class="w-full bg-kaya-peach rounded-[24px] border-[2.5px] border-black brutal-shadow-4 p-5 flex flex-col gap-3.5">
+<div class="flex items-center justify-between pb-1 border-b-[2px] border-black">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-black text-[22px]" data-icon="self_improvement">self_improvement</span>
+<h3 class="text-headline-sm font-headline-sm font-black text-black">Luteal phase</h3>
+</div>
+<span class="bg-kaya-white border-[2px] border-black rounded-full px-2.5 py-0.5 text-label-sm font-label-sm font-black text-black brutal-shadow-2">
+            Days 15–28
+          </span>
+</div>
+<!-- 3 Rows: Eat, Move, Avoid -->
+<div class="flex flex-col gap-2.5">
+<!-- Eat Row -->
+<div class="bg-kaya-white rounded-full border-[2.5px] border-black px-3.5 py-2.5 flex items-center gap-3 brutal-shadow-2">
+<div class="w-7 h-7 rounded-full bg-kaya-coral border-[2px] border-black flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-black" data-icon="restaurant">restaurant</span>
+</div>
+<div class="leading-tight">
+<span class="text-label-md font-label-md font-black text-black mr-1">Eat:</span>
+<span class="text-body-sm font-body-sm font-bold text-black">Iron-rich foods (spinach, lentils, seeds)</span>
+</div>
+</div>
+<!-- Move Row -->
+<div class="bg-kaya-white rounded-full border-[2.5px] border-black px-3.5 py-2.5 flex items-center gap-3 brutal-shadow-2">
+<div class="w-7 h-7 rounded-full bg-kaya-light-peach border-[2px] border-black flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-black" data-icon="directions_walk">directions_walk</span>
+</div>
+<div class="leading-tight">
+<span class="text-label-md font-label-md font-black text-black mr-1">Move:</span>
+<span class="text-body-sm font-body-sm font-bold text-black">Walking or yoga (gentle movement)</span>
+</div>
+</div>
+<!-- Avoid Row -->
+<div class="bg-kaya-white rounded-full border-[2.5px] border-black px-3.5 py-2.5 flex items-center gap-3 brutal-shadow-2">
+<div class="w-7 h-7 rounded-full bg-kaya-peach border-[2px] border-black flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-black" data-icon="coffee">coffee</span>
+</div>
+<div class="leading-tight">
+<span class="text-label-md font-label-md font-black text-black mr-1">Avoid:</span>
+<span class="text-body-sm font-body-sm font-bold text-black">Caffeine &amp; excess sodium</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. CLINICAL INSIGHTS CARD -->
+<section class="w-full bg-kaya-light-peach rounded-[24px] border-[2.5px] border-black brutal-shadow-4 p-5 flex flex-col gap-2.5 relative">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-full bg-kaya-coral border-[2.5px] border-black brutal-shadow-2 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-black text-[20px]" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md font-black text-black">Pattern Detected</span>
+<p class="text-body-md font-body-md font-extrabold text-black leading-snug mt-0.5">
+              Your cycles varied by 9 days over 3 months. Worth discussing with a doctor.
+            </p>
+</div>
+</div>
+<div class="flex justify-end pt-1">
+<a class="inline-flex items-center gap-1 text-label-md font-label-md font-black text-black underline decoration-2 underline-offset-4 hover:opacity-80" href="#report-cta">
+            Learn more →
+          </a>
+</div>
+</section>
+<!-- 6. MINI TREND CARD (Last 3 Months Pain Levels) -->
+<section class="w-full bg-kaya-white rounded-[24px] border-[2.5px] border-black brutal-shadow-4 p-5 flex flex-col gap-3.5">
+<div class="flex items-center justify-between pb-1">
+<div>
+<h3 class="text-headline-sm font-headline-sm font-black text-black">Pain levels</h3>
+<p class="text-body-sm font-body-sm font-bold text-black opacity-75">Last 3 months comparison</p>
+</div>
+<!-- Legend Pill -->
+<div class="flex items-center gap-2 bg-kaya-light-peach border-[2px] border-black rounded-full px-2.5 py-1">
+<span class="w-3 h-3 rounded-full bg-kaya-coral border-[1.5px] border-black"></span>
+<span class="text-label-sm font-label-sm font-black text-black">Period Days</span>
+</div>
+</div>
+<!-- Neubrutalist Chart Visualization -->
+<div class="w-full bg-kaya-light-peach/40 rounded-[18px] border-[2.5px] border-black p-4 flex flex-col gap-3">
+<!-- Chart Grid Lines / Bars -->
+<div class="grid grid-cols-3 gap-4 items-end h-36 pt-4 pb-1 border-b-[2.5px] border-black">
+<!-- Month 1: June -->
+<div class="flex flex-col items-center h-full justify-end gap-1">
+<span class="text-label-sm font-label-sm font-black text-black">Mild</span>
+<div class="w-full bg-kaya-peach border-[2.5px] border-black rounded-t-xl h-[45%] flex flex-col justify-end p-1 relative">
+<!-- Highlight Period Day Block -->
+<div class="w-full h-4 bg-kaya-coral border-[2px] border-black rounded-sm mb-0.5" title="Period peak"></div>
+</div>
+<span class="text-label-md font-label-md font-black text-black mt-1">June</span>
+</div>
+<!-- Month 2: July -->
+<div class="flex flex-col items-center h-full justify-end gap-1">
+<span class="text-label-sm font-label-sm font-black text-black">Mod</span>
+<div class="w-full bg-kaya-peach border-[2.5px] border-black rounded-t-xl h-[70%] flex flex-col justify-end p-1 relative">
+<!-- Highlight Period Day Block -->
+<div class="w-full h-6 bg-kaya-coral border-[2px] border-black rounded-sm mb-0.5" title="Period peak"></div>
+</div>
+<span class="text-label-md font-label-md font-black text-black mt-1">July</span>
+</div>
+<!-- Month 3: August (Current) -->
+<div class="flex flex-col items-center h-full justify-end gap-1">
+<span class="text-label-sm font-label-sm font-black text-black">High</span>
+<div class="w-full bg-kaya-coral border-[2.5px] border-black rounded-t-xl h-[92%] flex flex-col justify-end p-1 relative">
+<!-- Highlight Period Day Block -->
+<div class="w-full h-8 bg-black border-[2px] border-kaya-white rounded-sm mb-0.5 flex items-center justify-center" title="Period peak">
+<span class="text-[10px] font-black text-kaya-white leading-none">DAY 2</span>
+</div>
+</div>
+<span class="text-label-md font-label-md font-black text-black mt-1">August</span>
+</div>
+</div>
+<!-- Chart Footer Annotation -->
+<div class="flex items-center justify-between text-label-sm font-label-sm font-bold text-black">
+<span>Cycle length: 31d avg</span>
+<span class="text-kaya-black font-black">Logged 14 days ago</span>
+</div>
+</div>
+</section>
+<!-- 7. PROMINENT REPORT CTA BUTTON -->
+<section class="w-full pt-1" id="report-cta">
+<button class="w-full py-4 px-5 rounded-full bg-kaya-coral border-[2.5px] border-black brutal-shadow-4 brutal-press flex items-center justify-between transition-transform duration-100 cursor-pointer group">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-kaya-white border-[2.5px] border-black flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-black text-[22px]" data-icon="description">description</span>
+</div>
+<span class="text-label-lg font-label-lg font-black text-black tracking-tight text-left">
+              Generate doctor-ready report
+            </span>
+</div>
+<div class="w-8 h-8 rounded-full bg-black flex items-center justify-center flex-shrink-0 text-kaya-white group-hover:translate-x-1 transition-transform">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</button>
+</section>
+<!-- 8. PRIVACY STATEMENT -->
+<section class="w-full flex items-center justify-center gap-2 py-1 mb-3">
+<span class="material-symbols-outlined text-black text-[18px]" data-icon="lock">lock</span>
+<span class="text-label-md font-label-md font-extrabold text-black">Your data stays private. Encrypted on-device.</span>
+</section>
+</div>
+<!-- 9. BOTTOM NAVIGATION BAR (Shared Component: BottomNavBar) -->
+<!-- Destination count: 4 | Labels: ["Home", "Log", "Insights", "Report"] -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-space-sm bg-surface-container-lowest dark:bg-inverse-surface border-t-[2.5px] border-on-surface dark:border-outline shadow-[0px_-4px_0px_#000000]">
+<div class="w-full max-w-[390px] mx-auto flex items-center justify-around">
+<!-- 1. Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-space-md py-space-xs border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px]" href="#home">
+<span class="material-symbols-outlined text-black text-[22px]" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-label-sm font-label-sm font-black text-black leading-tight">Home</span>
+</a>
+<!-- 2. Log (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-inverse-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px]" href="#log">
+<span class="material-symbols-outlined text-black text-[22px]" data-icon="edit_calendar">edit_calendar</span>
+<span class="text-label-sm font-label-sm font-bold text-black leading-tight">Log</span>
+</a>
+<!-- 3. Insights (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-inverse-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px]" href="#insights">
+<span class="material-symbols-outlined text-black text-[22px]" data-icon="insights">insights</span>
+<span class="text-label-sm font-label-sm font-bold text-black leading-tight">Insights</span>
+</a>
+<!-- 4. Report (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface dark:text-inverse-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px]" href="#report">
+<span class="material-symbols-outlined text-black text-[22px]" data-icon="description">description</span>
+<span class="text-label-sm font-label-sm font-bold text-black leading-tight">Report</span>
+</a>
+</div>
+</nav>
+</main>
+<!-- Interactive feedback for quick logging pills -->
+<script>
+    document.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        // Simple tactile pulse feedback
+        this.classList.add('scale-[0.98]');
+        setTimeout(() => this.classList.remove('scale-[0.98]'), 120);
+      });
+    });
+  </script>
+</body></html>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
 import en from './en.json';
 
 const translations = { en };
@@ -6,23 +6,23 @@ const translations = { en };
 const I18nContext = createContext();
 
 export function I18nProvider({ children }) {
-  const [language, setLanguage] = useState('en');
-
-  const t = (key) => {
+  const t = (key, params = {}) => {
     const keys = key.split('.');
-    let value = translations[language];
+    let value = translations.en;
     for (const k of keys) {
       value = value?.[k];
     }
-    return value || key;
-  };
 
-  const changeLanguage = (lang) => {
-    setLanguage(lang);
+    if (!value) return key;
+
+    // Replace placeholders like {name} with actual values
+    return value.replace(/\{(\w+)\}/g, (match, param) => {
+      return params[param] || match;
+    });
   };
 
   return (
-    <I18nContext.Provider value={{ t, language, changeLanguage }}>
+    <I18nContext.Provider value={{ t }}>
       {children}
     </I18nContext.Provider>
   );

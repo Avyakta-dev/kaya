@@ -1,97 +1,43 @@
 import { useState, useEffect } from 'react';
 
 const VOICE_STRINGS = {
-  en: {
-    recording: 'Recording...',
-    transcribing: 'Transcribing...',
-    extracting: 'Extracting symptoms...',
-    confirm: 'Confirm',
-    edit: 'Edit',
-    type: 'Type',
-    severity: 'Severity',
-    area: 'Area',
-    save: 'Save',
-    cancel: 'Cancel',
-    detected: 'Detected',
-    pain: 'Pain',
-    mood: 'Mood',
-    flow: 'Flow',
-    sleep: 'Sleep',
-    fatigue: 'Fatigue',
-    other: 'Other',
-    abdomen: 'Abdomen',
-    head: 'Head',
-    back: 'Back',
-    breast: 'Breast',
-    legs: 'Legs',
-    none: 'None',
-    success: 'Logged successfully!',
-  },
-  kn: {
-    recording: 'ಧ್ವನಿ ಮುಗಿಸುವಿಕೆ...',
-    transcribing: 'ಲಿಪ್ಯಂತರಣ...',
-    extracting: 'ರೋಗಲಕ್ಷಣಗಳನ್ನು ಹೊರತೆಗೆಯುವಿಕೆ...',
-    confirm: 'ದೃಢೀಕರಿಸಿ',
-    edit: 'ಸಂಪಾದಿಸಿ',
-    type: 'ಪ್ರಕಾರ',
-    severity: 'ತೀವ್ರತೆ',
-    area: 'ಪ್ರದೇಶ',
-    save: 'ಉಳಿಸಿ',
-    cancel: 'ರದ್ದುಮಾಡಿ',
-    detected: 'ಪತ್ತೆಹಚ್ಚಲಾಗಿದೆ',
-    pain: 'ನೋವು',
-    mood: 'ಮನೋಭಾವ',
-    flow: 'ಹರಿವು',
-    sleep: 'ನಿದ್ರೆ',
-    fatigue: 'ಆಯಾಸ',
-    other: 'ಇತರೆ',
-    abdomen: 'ಹೊಟ್ಟೆ',
-    head: 'ತಲೆ',
-    back: 'ಬೆನ್ನು',
-    breast: 'ಎದೆ',
-    legs: 'ಕಾಲುಗಳು',
-    none: 'ಯಾವುದೂ ಇಲ್ಲ',
-    success: 'ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಾಗಿದೆ!',
-  },
-  hi: {
-    recording: 'रिकॉर्डिंग...',
-    transcribing: 'लिप्यंतरण...',
-    extracting: 'लक्षण निकालना...',
-    confirm: 'पुष्टि करें',
-    edit: 'संपादित करें',
-    type: 'प्रकार',
-    severity: 'तीव्रता',
-    area: 'क्षेत्र',
-    save: 'सहेजें',
-    cancel: 'रद्द करें',
-    detected: 'पता चला',
-    pain: 'दर्द',
-    mood: 'मूड',
-    flow: 'प्रवाह',
-    sleep: 'नींद',
-    fatigue: 'थकान',
-    other: 'अन्य',
-    abdomen: 'पेट',
-    head: 'सिर',
-    back: 'पीठ',
-    breast: 'स्तन',
-    legs: 'पैर',
-    none: 'कोई नहीं',
-    success: 'सफलतापूर्वक लॉग किया गया!',
-  },
+  recording: 'Recording...',
+  transcribing: 'Transcribing...',
+  extracting: 'Extracting symptoms...',
+  confirm: 'Confirm',
+  edit: 'Edit',
+  type: 'Type',
+  severity: 'Severity',
+  area: 'Area',
+  save: 'Save',
+  cancel: 'Cancel',
+  detected: 'Detected',
+  pain: 'Pain',
+  mood: 'Mood',
+  flow: 'Flow',
+  sleep: 'Sleep',
+  fatigue: 'Fatigue',
+  other: 'Other',
+  abdomen: 'Abdomen',
+  head: 'Head',
+  back: 'Back',
+  breast: 'Breast',
+  legs: 'Legs',
+  none: 'None',
+  success: 'Logged successfully!',
 };
 
 const TYPE_OPTIONS = ['pain', 'mood', 'flow', 'sleep', 'fatigue', 'other'];
 const AREA_OPTIONS = ['abdomen', 'head', 'back', 'breast', 'legs', null];
 
-export default function VoiceLogSheet({ isOpen, onClose, language, onConfirm, audioData, mimeType, recordingState, onStopRecording }) {
+export default function VoiceLogSheet({ isOpen, onClose, onConfirm, audioData, mimeType, recordingState, onStopRecording, onNavigateToCalendar }) {
   const [step, setStep] = useState('idle');
   const [transcript, setTranscript] = useState('');
   const [entries, setEntries] = useState([]);
   const [editingEntry, setEditingEntry] = useState(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const strings = VOICE_STRINGS[language] || VOICE_STRINGS.en;
+  const strings = VOICE_STRINGS;
 
   useEffect(() => {
     if (!isOpen) {
@@ -119,7 +65,7 @@ export default function VoiceLogSheet({ isOpen, onClose, language, onConfirm, au
         body: JSON.stringify({
           audio: audioData,
           mimeType,
-          language: language === 'kn' ? 'kn-IN' : language === 'hi' ? 'hi-IN' : 'en-IN',
+          language: 'en-IN',
         }),
       });
 
@@ -137,7 +83,7 @@ export default function VoiceLogSheet({ isOpen, onClose, language, onConfirm, au
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           transcript: transcribeData.transcript,
-          language: language === 'kn' ? 'kn-IN' : language === 'hi' ? 'hi-IN' : 'en-IN',
+          language: 'en-IN',
         }),
       });
 
@@ -169,6 +115,9 @@ export default function VoiceLogSheet({ isOpen, onClose, language, onConfirm, au
     setShowSuccess(true);
     setTimeout(() => {
       onClose();
+      if (onNavigateToCalendar) {
+        onNavigateToCalendar();
+      }
     }, 1500);
   };
 
