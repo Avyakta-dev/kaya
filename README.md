@@ -3,6 +3,7 @@
 A women's health companion that helps women **track their cycle and symptoms (by tap or by voice in their own language)** and walk into a doctor's office with a **one-page, doctor-ready report**.
 
 > Hackathon track: PS1, Women's Healthcare.
+> Team name : HERizon ( Team lead : Avyakta S, teammate : Abheeshta Adhikari )
 > Kaya does **not** diagnose. It flags patterns that are "worth discussing with a doctor".
 
 ---
