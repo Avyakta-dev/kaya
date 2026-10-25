@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../i18n/index.jsx';
 import { mockReport } from '../lib/mock/report';
 import { useEffect, useState } from 'react';
@@ -269,6 +271,7 @@ export default function Report() {
     <main className="w-full max-w-[390px] min-h-screen bg-[#f9f9f9] relative flex flex-col pb-32">
       <header className="sticky top-0 z-40 bg-[#f9f9f9] flex justify-between items-center w-full px-5 py-4 border-b-[2.5px] border-black shadow-[0px_4px_0px_#000000] no-print">
         <button
+          onClick={() => navigate(-1)}
           aria-label="Go Back"
           onClick={() => navigate('/')}
           className="w-10 h-10 rounded-full bg-white border-[2.5px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-center active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-transform"
@@ -401,10 +404,10 @@ export default function Report() {
                 <div
                   key={index}
                   className="p-2.5 border-[2px] border-black rounded-[16px] shadow-[2px_2px_0px_#000000]"
-                  style={{ backgroundColor: pattern.color }}
+                  style={{ backgroundColor: pattern.color || '#F6D1C5' }}
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="material-symbols-outlined text-black text-[17px]">{pattern.icon}</span>
+                    <span className="material-symbols-outlined text-black text-[17px]">{pattern.icon || 'warning'}</span>
                     <h3 className="text-[13px] text-black font-extrabold">{pattern.title}</h3>
                   </div>
                   <p className="text-[13px] text-black opacity-90 text-[12px] leading-snug">{pattern.description}</p>
@@ -448,9 +451,12 @@ export default function Report() {
             className="col-span-3 bg-[#EE8070] text-black border-[2.5px] border-black rounded-full py-3 px-5 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-[15px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform"
           >
             <span className="material-symbols-outlined text-[20px]">download</span>
-            <span>{t('report.downloadPdf')}</span>
+            <span>{downloading ? 'Generating...' : t('report.downloadPdf')}</span>
           </button>
-          <button className="col-span-2 bg-white text-black border-[2.5px] border-black rounded-full py-3 px-5 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-[15px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform">
+          <button
+            onClick={handleShare}
+            className="col-span-2 bg-white text-black border-[2.5px] border-black rounded-full py-3 px-5 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-[15px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform cursor-pointer"
+          >
             <span className="material-symbols-outlined text-[20px]">share</span>
             <span>{t('report.share')}</span>
           </button>
