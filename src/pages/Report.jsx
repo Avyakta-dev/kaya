@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from '../i18n/index.jsx';
 import { mockReport } from '../lib/mock/report';
-import { useEffect, useState } from 'react';
 import BottomNav from '../components/BottomNav';
-import { useSearchParams, useNavigate } from 'react-router-dom';
 
 export default function Report() {
   const { t } = useTranslation();
