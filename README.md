@@ -20,10 +20,8 @@ A women's health companion that helps women **track their cycle and symptoms (by
 
 ### High-Level Architecture
 
-```
 ![Kaya architecture](docs/architecture.png)
 
-```
 
 ### Data Flow
 
