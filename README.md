@@ -7,6 +7,16 @@ A women's health companion that helps women **track their cycle and symptoms (by
 
 ---
 
+## Demo and presentation
+
+| | Link |
+|---|---|
+| **Demo video** (5 min) | [Watch on Google Drive](https://drive.google.com/file/d/1rOn7ib0t2tOV9FMwu4S7mhqr5ylf4S64/view?usp=drive_link) |
+| **Presentation (PPT)** | [View on Google Drive](https://docs.google.com/presentation/d/1RVwQHNzYz-lTAURWLOQVsbN_daHGv-zM/edit?usp=drive_link) |
+| **Live app** | [https://kaya-brown.vercel.app/](https://kaya-brown.vercel.app/) |
+
+---
+
 ## The idea in 30 seconds
 
 1. **Log** symptoms and periods by tapping icons or speaking in Kannada, Hindi or English.
