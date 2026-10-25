@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kaya Onboarding - Welcome</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Nunito Sans for Typography Tokens -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS with CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config directly from Design System -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-fixed": "#ffdbcf",
+            "on-error-container": "#93000a",
+            "on-primary": "#ffffff",
+            "surface-container-low": "#f3f3f3",
+            "on-primary-container": "#681a12",
+            "on-tertiary-container": "#483129",
+            "surface-bright": "#f9f9f9",
+            "on-secondary": "#ffffff",
+            "outline": "#89726e",
+            "on-tertiary-fixed": "#2a1710",
+            "outline-variant": "#dcc0bc",
+            "error": "#ba1a1a",
+            "on-tertiary-fixed-variant": "#5a4138",
+            "secondary-fixed-dim": "#ffb59c",
+            "surface-container-high": "#e8e8e8",
+            "on-surface": "#1b1b1b",
+            "on-error": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#eeeeee",
+            "surface-dim": "#dadada",
+            "on-primary-fixed-variant": "#7e2b20",
+            "on-surface-variant": "#56423f",
+            "inverse-primary": "#ffb4a8",
+            "on-background": "#1b1b1b",
+            "primary-fixed-dim": "#ffb4a8",
+            "inverse-on-surface": "#f1f1f1",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed": "#370e02",
+            "inverse-surface": "#303030",
+            "surface-container-highest": "#e2e2e2",
+            "on-secondary-container": "#79422e",
+            "tertiary-fixed-dim": "#e3bfb3",
+            "secondary-container": "#feb198",
+            "tertiary": "#74584f",
+            "on-primary-fixed": "#410000",
+            "background": "#f9f9f9",
+            "secondary-fixed": "#ffdbcf",
+            "primary-fixed": "#ffdad5",
+            "primary-container": "#ee8070",
+            "surface-tint": "#9d4235",
+            "surface": "#f9f9f9",
+            "primary": "#9d4235",
+            "surface-variant": "#e2e2e2",
+            "secondary": "#894f3b",
+            "on-secondary-fixed-variant": "#6d3826",
+            "error-container": "#ffdad6",
+            "tertiary-container": "#b9988d"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "space-lg": "1.5rem",
+            "space-xl": "2rem",
+            "margin": "1.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Nunito Sans"],
+            "body-lg": ["Nunito Sans"],
+            "label-md": ["Nunito Sans"],
+            "headline-sm": ["Nunito Sans"],
+            "body-sm": ["Nunito Sans"],
+            "display": ["Nunito Sans"],
+            "headline-lg": ["Nunito Sans"],
+            "label-sm": ["Nunito Sans"],
+            "body-md": ["Nunito Sans"],
+            "label-lg": ["Nunito Sans"]
+          },
+          "fontSize": {
+            "headline-md": ["24px", { "lineHeight": "30px", "fontWeight": "800" }],
+            "body-lg": ["17px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "800" }],
+            "headline-sm": ["20px", { "lineHeight": "26px", "fontWeight": "700" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "600" }],
+            "display": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+            "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "900" }],
+            "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "800" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased min-h-full flex flex-col justify-between selection:bg-primary-container selection:text-on-surface">
+<!-- Main Container: Linear Flow (Navigation Shell purposefully suppressed per Semantic Shell rules for Onboarding) -->
+<div class="w-full max-w-md mx-auto flex flex-col min-h-screen px-margin py-space-md justify-between">
+<!-- Header Section -->
+<header class="w-full flex flex-col gap-space-md">
+<!-- Top Navigation Row -->
+<div class="flex items-center justify-between">
+<!-- Back Button: Round white pill with 2.5px black border & 4px hard shadow -->
+<button aria-label="Go back" class="w-12 h-12 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[4px_4px_0px_#000000] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all" type="button">
+<span class="material-symbols-outlined text-on-surface select-none" data-icon="arrow_back">arrow_back</span>
+</button>
+<!-- Kaya Brand Anchor -->
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-headline-md select-none" data-icon="spa" data-weight="fill" style="font-variation-settings: 'FILL' 1;">spa</span>
+<span class="text-headline-md font-headline-md font-black tracking-tight text-on-surface">Kaya</span>
+</div>
+<!-- Step Pill Badge -->
+<div class="px-space-md py-space-xs rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center">
+<span class="text-label-sm font-label-sm text-on-surface font-black uppercase tracking-wider">Step 1 of 3</span>
+</div>
+</div>
+<!-- Segmented Step Progress Indicator -->
+<div aria-label="Progress bar" class="flex items-center justify-center gap-space-sm pt-space-xs">
+<!-- Step 1: Active elongated coral pill with hard stroke -->
+<div class="h-3 w-12 rounded-full bg-primary-container border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] transition-all"></div>
+<!-- Step 2: Inactive round peach dot -->
+<div class="h-3 w-3 rounded-full bg-tertiary-fixed border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000]"></div>
+<!-- Step 3: Inactive round peach dot -->
+<div class="h-3 w-3 rounded-full bg-tertiary-fixed border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000]"></div>
+</div>
+</header>
+<!-- Main Content Canvas (Asymmetrical Neubrutalist Stack) -->
+<main class="flex-1 flex flex-col justify-center py-space-lg gap-space-lg">
+<!-- Tactile Neubrutalist Mascot / Badge Area -->
+<div class="flex justify-center items-center">
+<div class="relative w-36 h-36 rounded-full bg-secondary-fixed border-[2.5px] border-on-surface shadow-[4px_4px_0px_#000000] flex items-center justify-center">
+<!-- Outer decorative accent rings & floating shapes -->
+<div class="absolute -top-1 -right-2 w-8 h-8 rounded-full bg-primary-container border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface text-body-md select-none" data-icon="favorite" data-weight="fill" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="absolute -bottom-1 -left-2 w-7 h-7 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-body-sm select-none" data-icon="sparkles">arrow_back_ios_new</span>
+</div>
+<!-- Central friendly smiling sun / warm avatar illustration -->
+<div class="w-24 h-24 rounded-full bg-secondary-container border-[2.5px] border-on-surface flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Warm Blush Cheeks & Neubrutalist Face -->
+<div class="flex items-center gap-5 mt-2">
+<div class="w-2.5 h-2.5 bg-on-surface rounded-full"></div>
+<div class="w-2.5 h-2.5 bg-on-surface rounded-full"></div>
+</div>
+<!-- Soft Coral Cheeks -->
+<div class="flex items-center justify-between w-16 px-1 mt-1">
+<div class="w-3.5 h-2 bg-primary-container rounded-full border border-on-surface"></div>
+<div class="w-3.5 h-2 bg-primary-container rounded-full border border-on-surface"></div>
+</div>
+<!-- Smiling mouth -->
+<div class="w-6 h-3 border-b-[3px] border-on-surface rounded-b-full mt-0.5"></div>
+</div>
+</div>
+</div>
+<!-- Typography Header Block -->
+<div class="text-center space-y-space-xs">
+<h1 class="text-headline-lg font-headline-lg text-on-surface tracking-tight">
+          What should we call you?
+        </h1>
+<p class="text-body-md font-body-md text-on-surface-variant max-w-xs mx-auto leading-relaxed">
+          Your name helps Kaya personalize your daily cycle tracking and doctor reports.
+        </p>
+</div>
+<!-- Interactive Neubrutalist Form Block -->
+<div class="w-full space-y-space-md">
+<div class="flex flex-col gap-space-xs text-left">
+<label class="text-label-md font-label-md text-on-surface pl-space-xs flex items-center gap-1.5" for="user-name-input">
+<span class="material-symbols-outlined text-body-md select-none" data-icon="badge">badge</span>
+            Your Name or Nickname
+          </label>
+<div class="relative w-full">
+<input autocomplete="given-name" autofocus="" class="w-full bg-surface-container-lowest text-on-surface font-headline-sm text-headline-sm border-[2.5px] border-on-surface rounded-full px-space-lg py-3.5 shadow-[4px_4px_0px_#000000] focus:outline-none focus:border-on-surface focus:shadow-[4px_4px_0px_#000000] focus:ring-0 transition-all placeholder:text-on-surface/40 placeholder:font-body-lg placeholder:text-body-lg placeholder:italic" id="user-name-input" placeholder="Enter your name (e.g. Priya)" type="text"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center pointer-events-none text-on-surface/40">
+<span class="material-symbols-outlined text-headline-sm select-none" data-icon="edit">edit</span>
+</div>
+</div>
+</div>
+<!-- Privacy & Local-First Reassurance Pill -->
+<div class="flex items-center justify-center">
+<div class="inline-flex items-center gap-space-xs bg-tertiary-fixed border-[2.5px] border-on-surface rounded-full px-space-md py-space-xs shadow-[2px_2px_0px_#000000]">
+<span class="material-symbols-outlined text-body-md select-none text-on-surface" data-icon="lock" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lock</span>
+<span class="text-label-sm font-label-sm text-on-surface">Kept private on your device</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Docked Area: Linear Action -->
+<footer class="w-full pb-space-sm pt-space-xs">
+<button class="w-full bg-primary-container text-on-surface font-label-lg text-label-lg rounded-full border-[2.5px] border-on-surface py-4 px-space-lg shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-space-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer" id="continue-button" type="button">
+<span>Continue</span>
+<span class="material-symbols-outlined font-black select-none text-headline-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<!-- Language selector chip helper (Mirroring Kaya's multilingual DNA) -->
+<div class="flex justify-center items-center mt-space-sm">
+<button class="text-label-sm font-label-sm text-on-surface-variant hover:text-on-surface flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-body-sm select-none" data-icon="language">language</span>
+<span>EN | ಕನ್ನಡ | हिं</span>
+</button>
+</div>
+</footer>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+    const nameInput = document.getElementById('user-name-input');
+    const continueBtn = document.getElementById('continue-button');
+
+    // Input bounce & tactile feedback on enter key
+    nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        continueBtn.click();
+      }
+    });
+
+    continueBtn.addEventListener('click', () => {
+      const val = nameInput.value.trim();
+      if (!val) {
+        nameInput.focus();
+        nameInput.classList.add('animate-shake');
+        setTimeout(() => nameInput.classList.remove('animate-shake'), 400);
+      } else {
+        // Visual tap affirmation
+        continueBtn.style.transform = 'translate(4px, 4px)';
+        continueBtn.style.boxShadow = '0px 0px 0px #000000';
+        setTimeout(() => {
+          continueBtn.style.transform = '';
+          continueBtn.style.boxShadow = '';
+        }, 150);
+      }
+    });
+  </script>
+<style>
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .animate-shake {
+      animation: shake 0.35s ease-in-out;
+    }
+  </style>
+</body></html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kaya - Cycle Calendar</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400..900;1,6..12,400..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container-highest": "#e2e2e2",
+            "surface-tint": "#9d4235",
+            "background": "#f9f9f9",
+            "tertiary-fixed": "#ffdbcf",
+            "tertiary": "#74584f",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "inverse-primary": "#ffb4a8",
+            "on-surface-variant": "#56423f",
+            "on-secondary-fixed": "#370e02",
+            "tertiary-container": "#b9988d",
+            "tertiary-fixed-dim": "#e3bfb3",
+            "surface-variant": "#e2e2e2",
+            "secondary-container": "#feb198",
+            "outline-variant": "#dcc0bc",
+            "primary-fixed": "#ffdad5",
+            "secondary-fixed-dim": "#ffb59c",
+            "surface-bright": "#f9f9f9",
+            "on-primary-fixed-variant": "#7e2b20",
+            "on-tertiary-container": "#483129",
+            "on-primary-fixed": "#410000",
+            "surface-container-high": "#e8e8e8",
+            "on-secondary": "#ffffff",
+            "on-primary-container": "#681a12",
+            "error": "#ba1a1a",
+            "secondary-fixed": "#ffdbcf",
+            "surface-container-lowest": "#ffffff",
+            "primary": "#9d4235",
+            "surface-container-low": "#f3f3f3",
+            "outline": "#89726e",
+            "surface": "#f9f9f9",
+            "secondary": "#894f3b",
+            "on-tertiary-fixed": "#2a1710",
+            "on-surface": "#1b1b1b",
+            "on-secondary-container": "#79422e",
+            "on-secondary-fixed-variant": "#6d3826",
+            "on-primary": "#ffffff",
+            "on-background": "#1b1b1b",
+            "inverse-surface": "#303030",
+            "inverse-on-surface": "#f1f1f1",
+            "primary-fixed-dim": "#ffb4a8",
+            "surface-dim": "#dadada",
+            "on-tertiary-fixed-variant": "#5a4138",
+            "surface-container": "#eeeeee",
+            "primary-container": "#ee8070",
+            "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "1.5rem",
+            "space-md": "1rem",
+            "space-sm": "0.5rem",
+            "space-xl": "2rem",
+            "space-xs": "0.25rem",
+            "gutter": "1rem",
+            "margin": "1.25rem"
+          },
+          "fontFamily": {
+            "headline-md": ["Nunito Sans"],
+            "label-md": ["Nunito Sans"],
+            "label-sm": ["Nunito Sans"],
+            "headline-sm": ["Nunito Sans"],
+            "body-md": ["Nunito Sans"],
+            "label-lg": ["Nunito Sans"],
+            "headline-lg": ["Nunito Sans"],
+            "body-lg": ["Nunito Sans"],
+            "display": ["Nunito Sans"],
+            "body-sm": ["Nunito Sans"]
+          },
+          "fontSize": {
+            "headline-md": ["24px", { "lineHeight": "30px", "fontWeight": "800" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.02em", "fontWeight": "800" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "900" }],
+            "headline-sm": ["20px", { "lineHeight": "26px", "fontWeight": "700" }],
+            "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "800" }],
+            "headline-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "800" }],
+            "body-lg": ["17px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "display": ["38px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "900" }],
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased flex justify-center min-h-screen">
+<!-- Mobile Screen Container 390x844 Frame Emulation -->
+<div class="w-full max-w-[390px] min-h-[844px] bg-background flex flex-col relative pb-[90px] select-none shadow-2xl border-x-[2.5px] border-on-surface">
+<!-- TopAppBar (From Shared Component Spec) -->
+<header class="bg-surface w-full px-margin py-space-sm border-b-[2.5px] border-on-surface shadow-[0px_4px_0px_#000000] z-20 sticky top-0">
+<div class="flex justify-between items-center w-full">
+<!-- Leading Icon & Title -->
+<div class="flex items-center gap-space-xs">
+<button class="w-9 h-9 rounded-full bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[20px]">spa</span>
+</button>
+<span class="text-headline-md font-headline-md font-black text-on-surface tracking-tight ml-1">Kaya</span>
+</div>
+<!-- Trailing Action Pill: Language Toggle -->
+<div class="bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] rounded-full px-space-md py-1 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer">
+<span class="text-label-md font-label-md font-black text-on-surface">EN | ಕನ್ನಡ | हिं</span>
+</div>
+</div>
+</header>
+<!-- Main Content Scroll Canvas -->
+<main class="flex-1 px-margin pt-space-md flex flex-col gap-space-md">
+<!-- Month Navigation Card / Pill Header -->
+<section class="flex items-center justify-between">
+<div>
+<h1 class="text-headline-sm font-headline-sm text-on-surface font-extrabold tracking-tight">Cycle Calendar</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Track periods, symptoms &amp; flow</p>
+</div>
+<!-- Month Switcher Pill -->
+<div class="flex items-center bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[3px_3px_0px_#000000] rounded-full px-2 py-1 gap-1">
+<button aria-label="Previous month" class="w-6 h-6 flex items-center justify-center rounded-full active:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="text-label-md font-label-md font-black text-on-surface px-1">Oct 2024</span>
+<button aria-label="Next month" class="w-6 h-6 flex items-center justify-center rounded-full active:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Cycle Phase / Summary Badge -->
+<section class="bg-tertiary-fixed border-[2.5px] border-on-surface shadow-[3px_3px_0px_#000000] rounded-full py-2 px-space-md flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container border-[1.5px] border-on-surface animate-pulse"></span>
+<span class="text-label-sm font-label-sm font-black text-on-surface tracking-wide">CYCLE DAY 22 • LUTEAL</span>
+</div>
+<span class="text-label-sm font-label-sm font-extrabold bg-surface-container-lowest px-2 py-0.5 rounded-full border-[1.5px] border-on-surface">Next in 6 days</span>
+</section>
+<!-- Monthly Calendar Grid Card -->
+<section class="bg-surface-container-lowest border-[2.5px] border-on-surface shadow-[4px_4px_0px_#000000] rounded-[24px] p-space-md">
+<!-- Day of Week Headers -->
+<div class="grid grid-cols-7 gap-1 text-center mb-2">
+<span class="text-label-md font-label-md font-black text-on-surface">M</span>
+<span class="text-label-md font-label-md font-black text-on-surface">T</span>
+<span class="text-label-md font-label-md font-black text-on-surface">W</span>
+<span class="text-label-md font-label-md font-black text-on-surface">T</span>
+<span class="text-label-md font-label-md font-black text-on-surface">F</span>
+<span class="text-label-md font-label-md font-black text-on-surface">S</span>
+<span class="text-label-md font-label-md font-black text-on-surface">S</span>
+</div>
+<!-- 7x5 Day Grid -->
+<div class="grid grid-cols-7 gap-1.5">
+<!-- Previous Month trailing dates -->
+<div class="aspect-square rounded-xl flex flex-col items-center justify-center opacity-30 text-body-sm font-body-sm">30</div>
+<!-- October 1 to 5 (Period Days: Filled Coral #ee8070) -->
+<div class="aspect-square bg-primary-container border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative shadow-[1.5px_1.5px_0px_#000000]">
+<span class="text-label-md font-label-md font-black text-on-surface">1</span>
+<span class="material-symbols-outlined fill text-[10px] text-on-primary-container leading-none">water_drop</span>
+</div>
+<div class="aspect-square bg-primary-container border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative shadow-[1.5px_1.5px_0px_#000000]">
+<span class="text-label-md font-label-md font-black text-on-surface">2</span>
+<span class="material-symbols-outlined fill text-[10px] text-on-primary-container leading-none">water_drop</span>
+</div>
+<div class="aspect-square bg-primary-container border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative shadow-[1.5px_1.5px_0px_#000000]">
+<span class="text-label-md font-label-md font-black text-on-surface">3</span>
+<span class="material-symbols-outlined fill text-[10px] text-on-primary-container leading-none">water_drop</span>
+</div>
+<div class="aspect-square bg-primary-container border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative shadow-[1.5px_1.5px_0px_#000000]">
+<span class="text-label-md font-label-md font-black text-on-surface">4</span>
+<span class="material-symbols-outlined fill text-[10px] text-on-primary-container leading-none">water_drop</span>
+</div>
+<div class="aspect-square bg-primary-container border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative shadow-[1.5px_1.5px_0px_#000000]">
+<span class="text-label-md font-label-md font-black text-on-surface">5</span>
+<span class="material-symbols-outlined fill text-[10px] text-on-primary-container leading-none">water_drop</span>
+</div>
+<!-- October 6 - 7 -->
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center">
+<span class="text-label-md font-label-md font-bold">6</span>
+</div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center">
+<span class="text-label-md font-label-md font-bold">7</span>
+</div>
+<!-- October 8 (Symptom Logged) -->
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative">
+<span class="text-label-md font-label-md font-bold">8</span>
+<div class="w-1.5 h-1.5 rounded-full bg-secondary-container border border-on-surface mt-0.5"></div>
+</div>
+<!-- October 9 - 13 -->
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">9</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">10</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">11</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">12</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">13</span></div>
+<!-- October 14 (Symptom Logged / Fertile Peak) -->
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative">
+<span class="text-label-md font-label-md font-bold">14</span>
+<div class="w-1.5 h-1.5 rounded-full bg-secondary-container border border-on-surface mt-0.5"></div>
+</div>
+<!-- October 15 - 20 -->
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">15</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">16</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">17</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">18</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">19</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">20</span></div>
+<!-- October 21 (Symptom Logged) -->
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center relative">
+<span class="text-label-md font-label-md font-bold">21</span>
+<div class="w-1.5 h-1.5 rounded-full bg-secondary-container border border-on-surface mt-0.5"></div>
+</div>
+<!-- October 22 (TODAY - Active Selected Ring) -->
+<div class="aspect-square bg-tertiary-fixed border-[3px] border-on-surface rounded-xl flex flex-col items-center justify-center relative ring-2 ring-on-surface shadow-[2px_2px_0px_#000000] scale-105 z-10">
+<span class="text-label-md font-label-md font-black text-on-surface">22</span>
+<div class="w-2 h-2 rounded-full bg-secondary-container border border-on-surface mt-0.5"></div>
+</div>
+<!-- October 23 - 31 -->
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">23</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">24</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">25</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">26</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">27</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">28</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">29</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">30</span></div>
+<div class="aspect-square bg-surface border-[2px] border-on-surface rounded-xl flex flex-col items-center justify-center"><span class="text-label-md font-label-md font-bold">31</span></div>
+<!-- Next month padding -->
+<div class="aspect-square rounded-xl flex flex-col items-center justify-center opacity-30 text-body-sm font-body-sm">1</div>
+<div class="aspect-square rounded-xl flex flex-col items-center justify-center opacity-30 text-body-sm font-body-sm">2</div>
+<div class="aspect-square rounded-xl flex flex-col items-center justify-center opacity-30 text-body-sm font-body-sm">3</div>
+</div>
+<!-- Legend Bar Below Calendar -->
+<div class="mt-4 pt-3 border-t-[2px] border-on-surface flex flex-wrap items-center justify-around gap-2">
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-primary-container border-[1.5px] border-on-surface inline-block"></span>
+<span class="text-label-sm font-label-sm font-extrabold text-on-surface">Period</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3 h-3 rounded-full bg-secondary-container border-[1.5px] border-on-surface inline-block"></span>
+<span class="text-label-sm font-label-sm font-extrabold text-on-surface">Symptoms</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-3.5 h-3.5 rounded bg-tertiary-fixed border-[2px] border-on-surface ring-1 ring-on-surface inline-block"></span>
+<span class="text-label-sm font-label-sm font-extrabold text-on-surface">Today</span>
+</div>
+</div>
+</section>
+<!-- Selected Day Details Card -->
+<section class="bg-tertiary-fixed border-[2.5px] border-on-surface shadow-[4px_4px_0px_#000000] rounded-[24px] p-space-md flex flex-col gap-space-sm">
+<!-- Header inside card -->
+<div class="flex justify-between items-center pb-2 border-b-[2px] border-on-surface">
+<div>
+<h2 class="text-headline-sm font-headline-sm font-black text-on-surface">Tuesday, Oct 22</h2>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-bold">Selected Log Entry</span>
+</div>
+<span class="bg-surface-container-lowest text-on-surface border-[2px] border-on-surface px-2.5 py-1 rounded-full text-label-sm font-label-sm font-black shadow-[2px_2px_0px_#000000]">
+            Cycle Day 22
+          </span>
+</div>
+<!-- Logged Symptoms List (Neubrutalist Rows) -->
+<div class="flex flex-col gap-2 pt-1">
+<!-- Row 1: Cramps -->
+<div class="bg-surface-container-lowest border-[2px] border-on-surface rounded-xl p-2.5 flex items-center justify-between shadow-[2px_2px_0px_#000000]">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container border-[1.5px] border-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">healing</span>
+</div>
+<div>
+<p class="text-label-md font-label-md font-black text-on-surface">Cramps / Abdominal</p>
+<div class="flex items-center gap-1">
+<span class="text-label-sm font-label-sm font-bold text-on-surface-variant">Severity:</span>
+<div class="flex gap-0.5">
+<span class="w-2 h-2 rounded-full bg-primary-container border border-on-surface"></span>
+<span class="w-2 h-2 rounded-full bg-primary-container border border-on-surface"></span>
+<span class="w-2 h-2 rounded-full bg-primary-container border border-on-surface"></span>
+<span class="w-2 h-2 rounded-full bg-primary-container border border-on-surface"></span>
+<span class="w-2 h-2 rounded-full bg-surface-container-highest border border-on-surface"></span>
+</div>
+<span class="text-label-sm font-label-sm font-black text-on-surface ml-1">4/5</span>
+</div>
+</div>
+</div>
+<button class="w-7 h-7 rounded-full bg-surface border-[1.5px] border-on-surface flex items-center justify-center hover:bg-secondary-container active:translate-x-[1px] active:translate-y-[1px] transition-all">
+<span class="material-symbols-outlined text-[15px]">edit</span>
+</button>
+</div>
+<!-- Row 2: Mood & Energy -->
+<div class="bg-surface-container-lowest border-[2px] border-on-surface rounded-xl p-2.5 flex items-center justify-between shadow-[2px_2px_0px_#000000]">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container border-[1.5px] border-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">sentiment_neutral</span>
+</div>
+<div>
+<p class="text-label-md font-label-md font-black text-on-surface">Mood &amp; Mind</p>
+<p class="text-label-sm font-label-sm font-bold text-on-surface-variant">Fatigue &amp; Mild Anxiety</p>
+</div>
+</div>
+<button class="w-7 h-7 rounded-full bg-surface border-[1.5px] border-on-surface flex items-center justify-center hover:bg-secondary-container active:translate-x-[1px] active:translate-y-[1px] transition-all">
+<span class="material-symbols-outlined text-[15px]">edit</span>
+</button>
+</div>
+<!-- Row 3: Biometrics / Flow -->
+<div class="bg-surface-container-lowest border-[2px] border-on-surface rounded-xl p-2.5 flex items-center justify-between shadow-[2px_2px_0px_#000000]">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-secondary-container border-[1.5px] border-on-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">thermostat</span>
+</div>
+<div>
+<p class="text-label-md font-label-md font-black text-on-surface">Basal Body Temp &amp; Flow</p>
+<p class="text-label-sm font-label-sm font-bold text-on-surface-variant">98.4°F • Spotting</p>
+</div>
+</div>
+<button class="w-7 h-7 rounded-full bg-surface border-[1.5px] border-on-surface flex items-center justify-center hover:bg-secondary-container active:translate-x-[1px] active:translate-y-[1px] transition-all">
+<span class="material-symbols-outlined text-[15px]">edit</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Action CTA Button -->
+<section class="pb-2">
+<button class="w-full bg-primary-container text-on-surface font-headline-sm text-headline-sm font-black border-[2.5px] border-on-surface shadow-[4px_4px_0px_#000000] rounded-full py-3 px-space-md flex items-center justify-center gap-2 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all">
+<span class="material-symbols-outlined text-[24px]">add</span>
+<span>+ Add log</span>
+</button>
+</section>
+</main>
+<!-- BottomNavBar (From Shared Component Spec) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-gutter py-space-sm bg-surface-container-lowest border-t-[2.5px] border-on-surface shadow-[0px_-4px_0px_#000000] max-w-[390px] mx-auto left-1/2 -translate-x-1/2">
+<!-- Destination 1: Home (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px]">
+<span class="material-symbols-outlined text-[22px]">home</span>
+<span class="text-label-sm font-label-sm font-bold">Home</span>
+</button>
+<!-- Destination 2: Log (Active) -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-space-md py-space-xs border-[2.5px] border-on-surface shadow-[2px_2px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px]">
+<span class="material-symbols-outlined text-[22px]">edit_calendar</span>
+<span class="text-label-sm font-label-sm font-bold">Log</span>
+</button>
+<!-- Destination 3: Insights (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px]">
+<span class="material-symbols-outlined text-[22px]">insights</span>
+<span class="text-label-sm font-label-sm font-bold">Insights</span>
+</button>
+<!-- Destination 4: Report (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface px-space-md py-space-xs opacity-70 hover:opacity-100 transition-opacity active:translate-x-[2px] active:translate-y-[2px]">
+<span class="material-symbols-outlined text-[22px]">description</span>
+<span class="text-label-sm font-label-sm font-bold">Report</span>
+</button>
+</nav>
+</div>
+</body></html>

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from '../i18n/index.jsx';
-import LanguageToggle from '../components/LanguageToggle';
+import { registerUser } from '../lib/api.js';
 
 export default function Onboarding() {
   const { t } = useTranslation();
@@ -9,13 +9,57 @@ export default function Onboarding() {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
   const [lifeStage, setLifeStage] = useState('adult');
-  const [language, setLanguage] = useState('en');
+  const [isLoading, setIsLoading] = useState(false);
+  const [nameError, setNameError] = useState(false);
 
-  const handleContinue = () => {
-    if (step < 3) {
+  useEffect(() => {
+    // For demo: Always show onboarding by clearing localStorage
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userLifeStage');
+    localStorage.removeItem('userLogs');
+    setStep(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleContinue = async () => {
+    console.log('handleContinue called, step:', step);
+
+    if (step === 1 && !name.trim()) {
+      // Don't allow proceeding without a name
+      setNameError(true);
+      setTimeout(() => setNameError(false), 400);
+      return;
+    }
+
+    if (step < 2) {
+      console.log('Moving to step 2');
       setStep(step + 1);
     } else {
-      navigate('/');
+      console.log('Finishing onboarding, navigating to home');
+      // Demo mode: Skip API registration and use localStorage
+      setIsLoading(true);
+      try {
+        // Simulate API delay for demo purposes
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Use a fixed demo user ID for Priya
+        const demoUserId = 'demo-user-priya';
+        localStorage.setItem('userId', demoUserId);
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userAge', '19'); // Demo age for Priya
+        localStorage.setItem('userLifeStage', lifeStage);
+
+        console.log('Demo user registered:', { name, age: 19, lifeStage });
+        console.log('localStorage userId:', localStorage.getItem('userId'));
+      } catch (error) {
+        console.error('Failed to register user:', error);
+      } finally {
+        setIsLoading(false);
+      }
+
+      console.log('Calling navigate to /');
+      window.location.href = '/';
     }
   };
 
@@ -45,13 +89,13 @@ export default function Onboarding() {
           </div>
           <div className="px-4 py-1 rounded-full bg-white border-[2.5px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-center">
             <span className="text-[11px] font-black uppercase tracking-wider text-black">
-              {t(`onboarding.name.step`).replace('1', step)}
+              Step {step} of 2
             </span>
           </div>
         </div>
 
         <div className="flex items-center justify-center gap-2 pt-1">
-          {[1, 2, 3].map((s) => (
+          {[1, 2].map((s) => (
             <div
               key={s}
               className={`h-3 rounded-full border-[2.5px] border-black shadow-[2px_2px_0px_#000000] transition-all ${
@@ -106,7 +150,7 @@ export default function Onboarding() {
                   <input
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-white text-black text-[20px] border-[2.5px] border-black rounded-full px-6 py-3.5 shadow-[4px_4px_0px_#000000] focus:outline-none focus:border-black focus:shadow-[4px_4px_0px_#000000] focus:ring-0 transition-all placeholder:text-black/40 placeholder:text-[17px] placeholder:italic"
+                    className={`w-full bg-white text-black text-[20px] border-[2.5px] border-black rounded-full px-6 py-3.5 shadow-[4px_4px_0px_#000000] focus:outline-none focus:border-black focus:shadow-[4px_4px_0px_#000000] focus:ring-0 transition-all placeholder:text-black/40 placeholder:text-[17px] placeholder:italic ${nameError ? 'animate-shake' : ''}`}
                     id="user-name-input"
                     placeholder={t('onboarding.name.placeholder')}
                     type="text"
@@ -179,72 +223,23 @@ export default function Onboarding() {
           </>
         )}
 
-        {step === 3 && (
-          <>
-            <div className="text-left space-y-4">
-              <h1 className="text-[30px] font-black text-black mb-1 tracking-tight">{t('onboarding.language.title')}</h1>
-              <p className="text-[15px] text-[#56423f] leading-snug">{t('onboarding.language.subtitle')}</p>
-            </div>
-
-            <div className="space-y-4" role="radiogroup">
-              {[
-                { id: 'en', label: 'onboarding.language.english', desc: 'onboarding.language.englishDesc', color: '#EE8070' },
-                { id: 'kn', label: 'onboarding.language.kannada', desc: 'onboarding.language.kannadaDesc', color: '#F6D1C5' },
-                { id: 'hi', label: 'onboarding.language.hindi', desc: 'onboarding.language.hindiDesc', color: '#feb198' }
-              ].map((lang) => (
-                <div
-                  key={lang.id}
-                  onClick={() => setLanguage(lang.id)}
-                  className={`relative w-full border-[2.5px] border-black rounded-full p-4 shadow-[4px_4px_0px_#000000] flex items-center justify-between cursor-pointer transition-all ${
-                    language === lang.id ? 'bg-[#EE8070]' : ''
-                  }`}
-                  style={{ backgroundColor: language === lang.id ? '' : lang.color }}
-                  role="radio"
-                  aria-checked={language === lang.id}
-                >
-                  <div className="flex flex-col justify-center">
-                    <span className="text-[20px] font-extrabold text-black">{t(lang.label)}</span>
-                    <span className="text-[13px] font-bold text-black opacity-90">{t(lang.desc)}</span>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-white border-[2.5px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-center flex-shrink-0">
-                    {language === lang.id ? (
-                      <span className="material-symbols-outlined text-black" style={{ fontVariationSettings: 'FILL 1', fontSize: '22px' }}>
-                        check
-                      </span>
-                    ) : (
-                      <div className="w-3.5 h-3.5 rounded-full bg-transparent"></div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-6 p-4 bg-white border-[2.5px] border-black rounded-[24px] shadow-[4px_4px_0px_#000000] flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-[#EE8070] border-[2.5px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-center flex-shrink-0">
-                <span className="material-symbols-outlined text-black" style={{ fontVariationSettings: 'FILL 1', fontSize: '26px' }}>
-                  mic
-                </span>
-              </div>
-              <div className="relative bg-[#f9f9f9] border-[2.5px] border-black rounded-2xl p-3 text-left shadow-[2px_2px_0px_#000000]">
-                <p className="text-[13px] text-black font-extrabold leading-tight">{t('onboarding.language.voicePreview')}</p>
-              </div>
-            </div>
-          </>
-        )}
       </main>
 
       <footer className="w-full pb-2 pt-1">
         <button
           onClick={handleContinue}
-          className="w-full bg-[#EE8070] text-black font-black rounded-full border-[2.5px] border-black py-4 px-6 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer"
+          disabled={isLoading}
+          className="w-full bg-[#EE8070] text-black font-black rounded-full border-[2.5px] border-black py-4 px-6 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#000000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span>{step === 3 ? t('onboarding.language.continue') : t('onboarding.name.continue')}</span>
-          <span className="material-symbols-outlined font-black text-[20px]">arrow_forward</span>
+          {isLoading ? (
+            <span className="material-symbols-outlined animate-spin">refresh</span>
+          ) : (
+            <>
+              <span>{step === 2 ? t('onboarding.lifeStage.finish') : t('onboarding.name.continue')}</span>
+              <span className="material-symbols-outlined font-black text-[20px]">arrow_forward</span>
+            </>
+          )}
         </button>
-
-        <div className="flex justify-center items-center mt-4">
-          <LanguageToggle compact />
-        </div>
       </footer>
     </div>
   );

@@ -16,8 +16,7 @@ export const mockTodayLog = {
 };
 
 export const mockVoiceTranscription = {
-  original: 'ಇವತ್ತು ಹೊಟ್ಟೆ ತುಂಬಾ ನೋವು ಇದೆ, ನಾಲ್ಕು ದಿನದಿಂದ ಇತ್ತು',
-  translation: 'Severe cramps and lower abdominal pain today, feeling around 4 out of 5',
+  original: 'I have severe cramps and lower abdominal pain today, feeling around 4 out of 5',
   extracted: [
     { type: 'symptom', value: 'Pain', icon: 'healing' },
     { type: 'severity', value: '4/5', icon: 'speed' },
