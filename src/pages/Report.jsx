@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from '../i18n/index.jsx';
-import { mockReport } from '../lib/mock/report';
 import BottomNav from '../components/BottomNav';
 
 export default function Report() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [user, setUser] = useState(null);
-  const [reportData, setReportData] = useState(mockReport);
+  const [reportData, setReportData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Get timeframe from URL params (passed from Insights)
   const timeframe = searchParams.get('timeframe') || '3months';
@@ -233,7 +232,7 @@ export default function Report() {
   const handleDownloadPdf = () => {
     // Generate PDF filename with date
     const date = new Date().toISOString().split('T')[0];
-    const userName = user?.name || 'User';
+    const userName = reportData.patient?.name || 'User';
     const filename = `Kaya_Report_${userName}_${date}.pdf`;
 
     // Set document title for PDF filename
@@ -249,29 +248,25 @@ export default function Report() {
   };
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const userId = localStorage.getItem('userId');
-      if (userId) {
-        // Demo mode: Use localStorage data
-        const name = localStorage.getItem('userName') || reportData.patient.name;
-        const lifeStage = localStorage.getItem('userLifeStage') || 'adult';
-        setUser({ name, age_group: lifeStage, age: reportData.patient.age });
-      }
-    };
-
     // Set report data based on timeframe
     setReportData(getReportData(timeframe));
-
-    fetchUser();
+    setLoading(false);
   }, [timeframe]);
+
+  if (loading || !reportData) {
+    return (
+      <div className="min-h-screen bg-[#f9f9f9] flex items-center justify-center">
+        <span className="material-symbols-outlined animate-spin text-[#9d4235] text-[48px]">refresh</span>
+      </div>
+    );
+  }
 
   return (
     <main className="w-full max-w-[390px] min-h-screen bg-[#f9f9f9] relative flex flex-col pb-32">
       <header className="sticky top-0 z-40 bg-[#f9f9f9] flex justify-between items-center w-full px-5 py-4 border-b-[2.5px] border-black shadow-[0px_4px_0px_#000000] no-print">
         <button
-          onClick={() => navigate(-1)}
-          aria-label="Go Back"
           onClick={() => navigate('/')}
+          aria-label="Go Back"
           className="w-10 h-10 rounded-full bg-white border-[2.5px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-center active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-transform"
         >
           <span className="material-symbols-outlined text-[20px] text-black">arrow_back</span>
@@ -320,20 +315,22 @@ export default function Report() {
             <div className="flex items-center justify-between pb-1.5 border-b-[1.5px] border-black border-dashed">
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-black text-[18px]">person</span>
-                <span className="text-[13px] text-black font-extrabold">{user?.name || reportData.patient.name}, {reportData.patient.age} yrs</span>
+                <span className="text-[13px] text-black font-extrabold">
+                  {reportData.patient?.name || 'Patient'}, {reportData.patient?.age || '—'} yrs
+                </span>
               </div>
               <span className="text-[11px] bg-white px-2 py-0.5 rounded-full border-[1.5px] border-black text-black">
-                {user?.age_group === 'teen' ? 'Teen' : user?.age_group === '20s' ? 'Adult' : user?.age_group === '40s+' ? '40+ / Perimenopause' : reportData.patient.lifeStage}
+                {reportData.patient?.lifeStage || 'Adult'}
               </span>
             </div>
             <div className="grid grid-cols-2 gap-2 pt-0.5">
               <div className="bg-white p-2 rounded-xl border-[2px] border-black shadow-[1px_1px_0px_#000000]">
                 <p className="text-[11px] text-black opacity-75 text-[10px]">{t('report.loggedInterval')}</p>
-                <p className="text-[13px] font-bold text-black">{reportData.loggedInterval}</p>
+                <p className="text-[13px] font-bold text-black">{reportData.loggedInterval || '—'}</p>
               </div>
               <div className="bg-white p-2 rounded-xl border-[2px] border-black shadow-[1px_1px_0px_#000000]">
                 <p className="text-[11px] text-black opacity-75 text-[10px]">{t('report.avgCycle')}</p>
-                <p className="text-[13px] font-bold text-[#9d4235]">{reportData.avgCycleLength}</p>
+                <p className="text-[13px] font-bold text-[#9d4235]">{reportData.avgCycleLength || '—'}</p>
               </div>
             </div>
           </section>
@@ -344,7 +341,7 @@ export default function Report() {
                 <span className="material-symbols-outlined text-black text-[18px]">calendar_month</span>
                 {t('report.timeline')}
               </h2>
-              <span className="text-[11px] text-[#9d4235] font-bold">Δ {reportData.maxSpread} {t('insights.variationDesc').split(' ')[1]}</span>
+              <span className="text-[11px] text-[#9d4235] font-bold">Δ {reportData.maxSpread} days</span>
             </div>
 
             <div className="space-y-2 pt-1">
@@ -352,13 +349,13 @@ export default function Report() {
                 <div
                   key={index}
                   className={`p-2.5 rounded-[14px] border-[2px] border-black shadow-[2px_2px_0px_#000000] flex items-center justify-between ${
-                    cycle.status.includes('Delayed') ? 'bg-[#F4A990]' : 'bg-white'
+                    cycle.status && cycle.status.includes('Delayed') ? 'bg-[#F4A990]' : 'bg-white'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
                     <div
                       className={`w-9 h-9 rounded-full border-[2px] border-black flex flex-col items-center justify-center font-bold text-[11px] leading-tight ${
-                        cycle.status.includes('Delayed') ? 'bg-white text-[#9d4235]' : 'bg-[#F6D1C5]'
+                        cycle.status && cycle.status.includes('Delayed') ? 'bg-white text-[#9d4235]' : 'bg-[#F6D1C5]'
                       }`}
                     >
                       <span>{cycle.month}</span>
@@ -368,7 +365,7 @@ export default function Report() {
                         <span className="text-[13px] text-black font-extrabold">{cycle.length}</span>
                         <span
                           className={`text-[10px] px-1.5 py-0.2 rounded border-[1px] border-black font-semibold ${
-                            cycle.status.includes('Delayed')
+                            cycle.status && cycle.status.includes('Delayed')
                               ? 'bg-[#EE8070] text-black font-extrabold'
                               : 'bg-[#e8e8e8]'
                           }`}
@@ -381,8 +378,10 @@ export default function Report() {
                   </div>
                   <div className="w-12 h-3.5 bg-[#f3f3f3] rounded-full border-[1.5px] border-black overflow-hidden">
                     <div
-                      className={`h-full border-r-[1.5px] border-black ${cycle.status.includes('Delayed') ? 'bg-[#9d4235]' : 'bg-[#EE8070]'}`}
-                      style={{ width: `${cycle.severity}%` }}
+                      className={`h-full border-r-[1.5px] border-black ${
+                        cycle.status && cycle.status.includes('Delayed') ? 'bg-[#9d4235]' : 'bg-[#EE8070]'
+                      }`}
+                      style={{ width: `${cycle.severity || 70}%` }}
                     ></div>
                   </div>
                 </div>
@@ -398,24 +397,26 @@ export default function Report() {
               <h2 className="text-[15px] text-black font-black">{t('report.flaggedPatterns')}</h2>
             </div>
             <div className="space-y-2">
-              {reportData.flaggedPatterns.map((pattern, index) => (
+              {(reportData.flaggedPatterns || []).map((pattern, index) => (
                 <div
                   key={index}
                   className="p-2.5 border-[2px] border-black rounded-[16px] shadow-[2px_2px_0px_#000000]"
-                  style={{ backgroundColor: pattern.color || '#F6D1C5' }}
+                  style={{ backgroundColor: pattern.color }}
                 >
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="material-symbols-outlined text-black text-[17px]">{pattern.icon || 'warning'}</span>
+                    <span className="material-symbols-outlined text-black text-[17px]">{pattern.icon}</span>
                     <h3 className="text-[13px] text-black font-extrabold">{pattern.title}</h3>
                   </div>
                   <p className="text-[13px] text-black opacity-90 text-[12px] leading-snug">{pattern.description}</p>
                 </div>
               ))}
             </div>
-            <div className="bg-[#e8e8e8] border-[1.5px] border-black rounded-xl p-2 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#9d4235] text-[18px]">info</span>
-              <p className="text-[11px] font-bold text-black leading-tight">{reportData.clinicalNote}</p>
-            </div>
+            {reportData.clinicalNote && (
+              <div className="bg-[#e8e8e8] border-[1.5px] border-black rounded-xl p-2 flex items-center gap-2">
+                <span className="material-symbols-outlined text-[#9d4235] text-[18px]">info</span>
+                <p className="text-[11px] font-bold text-black leading-tight">{reportData.clinicalNote}</p>
+              </div>
+            )}
           </section>
 
           <section className="bg-white border-[2.5px] border-black rounded-[18px] p-3 shadow-[2px_2px_0px_#000000] space-y-2">
@@ -426,7 +427,7 @@ export default function Report() {
               <h2 className="text-[13px] text-black font-black">{t('report.suggestedQuestions')}</h2>
             </div>
             <ul className="space-y-2 pt-1 text-[12px] text-black leading-snug">
-              {reportData.suggestedQuestions.map((question, index) => (
+              {(reportData.suggestedQuestions || []).map((question, index) => (
                 <li key={index} className="flex items-start gap-2 bg-[#F6D1C5]/30 p-1.5 rounded-lg border-[1px] border-black">
                   <span className="material-symbols-outlined text-[#9d4235] text-[16px] mt-0.5 shrink-0" style={{ fontVariationSettings: 'FILL 1' }}>
                     check_box
@@ -449,12 +450,9 @@ export default function Report() {
             className="col-span-3 bg-[#EE8070] text-black border-[2.5px] border-black rounded-full py-3 px-5 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-[15px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform"
           >
             <span className="material-symbols-outlined text-[20px]">download</span>
-            <span>{downloading ? 'Generating...' : t('report.downloadPdf')}</span>
+            <span>{t('report.downloadPdf')}</span>
           </button>
-          <button
-            onClick={handleShare}
-            className="col-span-2 bg-white text-black border-[2.5px] border-black rounded-full py-3 px-5 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-[15px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform cursor-pointer"
-          >
+          <button className="col-span-2 bg-white text-black border-[2.5px] border-black rounded-full py-3 px-5 shadow-[4px_4px_0px_#000000] flex items-center justify-center gap-2 font-black text-[15px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-transform">
             <span className="material-symbols-outlined text-[20px]">share</span>
             <span>{t('report.share')}</span>
           </button>
