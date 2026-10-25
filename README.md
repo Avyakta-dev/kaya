@@ -14,260 +14,648 @@ A women's health companion that helps women **track their cycle and symptoms (by
 3. **Spot patterns** with simple rules (irregular cycles, recurring pain, heavy flow with fatigue), explained in friendly, age-adapted language.
 4. **Generate a doctor-ready PDF**: timeline, flagged patterns, and questions to ask.
 
-Full idea document: see the shared project doc (link in the team chat).
+---
+
+## System Architecture
+
+### High-Level Architecture
+
+![Kaya architecture](docs/architecture.png)
+
+
+### Data Flow
+
+#### 1. Voice Logging Flow
+```
+User speaks → Browser captures audio → Send to /api/transcribe
+↓
+Sarvam AI processes → Returns transcript → Send to /api/extract
+↓
+LLM extracts structured data → {type, severity, area, date}
+↓
+Save to localStorage (demo) or Supabase (production)
+↓
+Display in calendar with icon badge
+```
+
+#### 2. Manual Logging Flow
+```
+User fills form → Create symptom object
+↓
+Save to localStorage (demo) or Supabase (production)
+↓
+Display in calendar with icon badge
+```
+
+#### 3. Pattern Detection Flow
+```
+Fetch logs from storage
+↓
+Rules engine analyzes:
+  - Cycle length variation (>7 days = flag)
+  - Recurring pain patterns
+  - Heavy flow + fatigue combination
+  - Sleep disturbances
+↓
+Generate flags array
+↓
+LLM converts flags to age-appropriate, friendly text
+↓
+Display in Insights page
+```
+
+#### 4. Report Generation Flow
+```
+User selects timeframe (1/2/3 months)
+↓
+Fetch user data + cycle logs + symptom logs
+↓
+Run rules engine to generate flags
+↓
+Generate report structure:
+  - Patient info
+  - Cycle timeline
+  - Flagged patterns
+  - Clinical note
+  - Suggested questions
+↓
+Render to UI
+↓
+User clicks "Download PDF" → Browser print dialog → Save as PDF
+```
+
+### Component Architecture
+
+```
+App.jsx (Router)
+├── Onboarding.jsx (2-step setup)
+│   ├── Step 1: Name input
+│   └── Step 2: Life stage selection
+├── Home.jsx (Dashboard)
+│   ├── CycleRing.jsx (Visual cycle tracker)
+│   ├── QuickLogRow.jsx (Fast symptom entry)
+│   ├── TipsCard.jsx (Phase-based wellness tips)
+│   └── TrendCard.jsx (Pain trends visualization)
+├── Calendar.jsx (Monthly view)
+│   ├── Calendar grid
+│   ├── Period days highlighting
+│   └── Symptom indicators
+├── Log.jsx (Entry form)
+│   ├── Voice mode (with VoiceLogSheet)
+│   └── Manual mode (form inputs)
+├── Insights.jsx (Pattern analysis)
+│   ├── Trend visualization
+│   └── Flagged patterns display
+└── Report.jsx (Doctor report)
+    ├── Timeline view
+    ├── Flagged patterns
+    └── PDF generation
+```
 
 ---
 
-## Tech stack
+## Tech Stack
 
-| Layer | Tool |
-|---|---|
-| Frontend | React + Vite + Tailwind CSS (converted from a Google Stitch design) |
-| Routing | React Router |
-| Backend | Vercel serverless functions in `/api` |
-| Database + auth | Supabase (Postgres) |
-| Voice (speech-to-text) | Sarvam AI |
-| LLM (extract + insights) | Gemini / Groq free tier (or Sarvam) |
-| PDF report | jsPDF |
-| Charts | Recharts or Chart.js |
-| Hosting | Vercel |
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **Frontend** | React 19 + Vite 8 | UI framework and build tool |
+| **Styling** | Tailwind CSS 4 | Utility-first CSS framework |
+| **Routing** | React Router 7 | Client-side routing |
+| **Backend** | Express.js 5 | Local development server |
+| **Database** | Supabase (PostgreSQL) | User data, cycle logs, symptom logs |
+| **Authentication** | Supabase Auth | User management |
+| **Voice (STT)** | Sarvam AI | Speech-to-text for Kannada, Hindi, English |
+| **LLM** | Groq / Gemini | Extract symptoms from transcripts, generate insights |
+| **PDF Generation** | Browser Print API | Doctor-ready reports |
+| **Internationalization** | Custom i18n system | Multi-language support (en, kn, hi) |
+| **Icons** | Google Material Symbols | Consistent iconography |
+| **Fonts** | Poppins, Noto Sans Kannada, Noto Sans Devanagari | Typography |
+
+### Technology Choices Rationale
+
+- **React + Vite**: Fast development, hot reload, optimal build performance
+- **Tailwind CSS**: Rapid UI development, consistent design system, small bundle size
+- **Supabase**: Complete backend solution (auth, database, real-time) with generous free tier
+- **Sarvam AI**: Specialized in Indian languages, better performance for local languages
+- **Groq LLM**: Fast inference, low latency for real-time insights
+- **Browser Print API**: Native PDF generation without heavy libraries, works offline
 
 ---
 
-## Getting started
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Git
+
+### Installation
 
 ```bash
+# Clone the repository
 git clone https://github.com/<your-username>/kaya.git
 cd kaya
+
+# Switch to dev branch
 git checkout dev
+
+# Install dependencies
 npm install
-cp .env.example .env     # then fill in your own keys
-npm run dev              # frontend only, at http://localhost:5173
+
+# Copy environment variables template
+cp .env.example .env
+
+# Fill in your API keys in .env
+# (See Environment Variables section below)
 ```
 
-To run the frontend **and** the `/api` functions together:
+### Running the Application
+
+#### Option 1: Full Stack (Recommended for Development)
 
 ```bash
-npm i -g vercel
-vercel login
-vercel link
-vercel dev
+# Start the combined server (frontend + API)
+npm run dev:server
+
+# Application runs at http://localhost:3000
 ```
 
-> `npm run dev` does not serve `/api`. Use `vercel dev` when testing backend functions locally.
+#### Option 2: Frontend Only
 
-### Environment variables
+```bash
+# Start only the Vite dev server
+npm run dev
 
-Copy `.env.example` to `.env` and fill in:
-
-```
-SUPABASE_URL=
-SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_KEY=
-SARVAM_API_KEY=
-LLM_API_KEY=
+# Frontend runs at http://localhost:5173
+# Note: API endpoints will need to be mocked or run separately
 ```
 
-- **Never commit `.env`.** It is in `.gitignore`.
-- Only variables starting with `VITE_` reach the browser. Keep `SARVAM_API_KEY` and `LLM_API_KEY` **server-side only** (inside `/api`).
-- The same variables must be added in the Vercel dashboard (Project Settings, Environment Variables), then redeploy.
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Supabase Configuration
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_KEY=your_supabase_service_key
+
+# AI Services
+SARVAM_API_KEY=your_sarvam_api_key
+LLM_API_KEY=your_groq_or_gemini_api_key
+LLM_PROVIDER=groq  # or 'gemini'
+
+# Optional: Demo Mode
+DEMO_MODE=true  # If true, uses mock data instead of real APIs
+```
+
+**Important Security Notes:**
+- Never commit `.env` to version control (it's in `.gitignore`)
+- Only variables prefixed with `VITE_` are exposed to the browser
+- Keep `SARVAM_API_KEY` and `LLM_API_KEY` server-side only
+- Rotate keys immediately if leaked
 
 ---
 
-## Folder structure
-
-Items marked **(new)** are backend/support folders added on top of the Vite frontend.
+## Project Structure
 
 ```
 kaya/
-├── api/                          # (new) serverless functions (backend)
-│   ├── transcribe.js             # P2: Sarvam speech-to-text
-│   ├── extract.js                # P2: transcript -> structured symptom JSON
-│   ├── insights.js               # P2: flags -> friendly, age-adapted text
-│   ├── translate.js              # P2: Sarvam translate (optional)
-│   ├── report.js                 # P1: collects data for the doctor report
-│   ├── logs.js                   # P1: save / read / edit / delete logs
-│   └── _lib/                     # shared helpers (underscore = not a route)
-│       ├── supabase.js           # P1: Supabase client
-│       ├── rules.js              # P1: rules engine
-│       ├── llm.js                # P2: LLM call wrapper
-│       ├── sarvam.js             # P2: Sarvam call wrapper
-│       └── fallbacks.js          # P2: cached demo responses
+├── api/                          # Backend API endpoints
+│   ├── transcribe.js             # Speech-to-text (Sarvam AI)
+│   ├── extract.js                # Extract symptoms from transcript (LLM)
+│   ├── report.js                 # Generate doctor report data
+│   ├── logs.js                   # CRUD operations for symptom logs
+│   ├── users.js                  # User registration and management
+│   └── _lib/                     # Shared backend utilities
+│       ├── supabase.js           # Supabase client configuration
+│       ├── rules.js              # Pattern detection rules engine
+│       ├── llm.js                # LLM API wrapper
+│       ├── sarvam.js             # Sarvam AI API wrapper
+│       └── fallbacks.js          # Demo/mock responses
 │
-├── content/                      # (new) static content (P2)
-│   ├── phase-tips.json           # eat / move / avoid per cycle phase
-│   ├── doctor-questions.json     # questions to ask, per age group
-│   └── demo-cache.json           # cached transcript + insight for the demo
+├── db/                           # Database schema and seed data
+│   ├── schema.sql                # Supabase table definitions
+│   ├── seed.js                   # Demo patient data seeding
+│   └── test-rules.js             # Rules engine testing
 │
-├── db/                           # (new) P1
-│   ├── schema.sql                # tables + row-level security
-│   └── seed.js                   # 3 months of demo patient data
+├── src/                          # Frontend React application
+│   ├── components/               # Reusable UI components
+│   │   ├── BottomNav.jsx         # Bottom navigation bar
+│   │   ├── CycleRing.jsx         # Visual cycle tracker
+│   │   ├── QuickLogRow.jsx       # Quick symptom entry
+│   │   ├── TipsCard.jsx          # Phase-based wellness tips
+│   │   ├── TrendCard.jsx         # Pain trend visualization
+│   │   ├── InsightCard.jsx       # Pattern insight display
+│   │   ├── ReportButton.jsx      # Report generation button
+│   │   └── VoiceLogSheet.jsx     # Voice input bottom sheet
+│   │
+│   ├── pages/                    # Page components
+│   │   ├── Onboarding.jsx        # 2-step user onboarding
+│   │   ├── Home.jsx              # Main dashboard
+│   │   ├── Calendar.jsx          # Monthly calendar view
+│   │   ├── Log.jsx               # Symptom logging (voice/manual)
+│   │   ├── Insights.jsx          # Pattern analysis and trends
+│   │   └── Report.jsx           # Doctor-ready report
+│   │
+│   ├── lib/                      # Frontend utilities
+│   │   ├── api.js                # API client functions
+│   │   ├── useVoiceRecorder.js   # Custom voice recording hook
+│   │   └── mock/                 # Mock data for development
+│   │       ├── user.js
+│   │       ├── cycle.js
+│   │       ├── symptoms.js
+│   │       └── report.js
+│   │
+│   ├── i18n/                     # Internationalization
+│   │   ├── index.jsx             # i18n provider
+│   │   ├── en.json               # English translations
+│   │   ├── kn.json               # Kannada translations
+│   │   └── hi.json               # Hindi translations
+│   │
+│   ├── App.jsx                   # Main app with routing
+│   ├── main.jsx                  # Application entry point
+│   └── index.css                 # Global styles
 │
-├── docs/                         # (new)
-│   └── api-contract.md           # agreed JSON formats (read this first)
+├── public/                       # Static assets
 │
-├── public/                       # static assets
-│
-├── src/                          # frontend (React + Vite)
-│   ├── assets/                   # images, icons
-│   ├── components/               # BottomNav, CycleRing, QuickLogRow, TipsCard, ...
-│   ├── i18n/                     # translations
-│   │   ├── en.json               # P2
-│   │   ├── kn.json               # P2
-│   │   └── hi.json               # P2
-│   ├── lib/
-│   │   ├── api.js                # frontend calls to /api (shared, edit carefully)
-│   │   ├── pdf.js                # P1: jsPDF report layout
-│   │   └── mock/                 # mock JSON so the UI works without the backend
-│   ├── pages/                    # Onboarding, Home, Log, Insights, Report
-│   ├── App.jsx                   # routes
-│   ├── App.css
-│   ├── index.css                 # Tailwind + global styles
-│   └── main.jsx                  # entry point
-│
-├── DESIGN.md                     # design tokens exported from Stitch
-├── eslint.config.js
-├── index.html
-├── tailwind.config.js            # theme colors, fonts, radius
-├── vite.config.js
-├── vercel.json                   # (new) SPA rewrite so page refresh doesn't 404
-├── .env.example                  # (new) variable names only, no real keys
-├── .gitignore
-├── package.json
-├── package-lock.json
-└── README.md
+├── server.js                     # Express development server
+├── vite.config.js                # Vite configuration
+├── tailwind.config.js            # Tailwind theme configuration
+├── eslint.config.js              # ESLint configuration
+├── package.json                  # Dependencies and scripts
+├── .env.example                  # Environment variables template
+├── .gitignore                    # Git ignore rules
+└── README.md                     # This file
 ```
-
-Not committed (listed in `.gitignore`): `node_modules/`, `dist/`, `.env`.
 
 ---
 
-## Who owns what
+## Features
 
-Each person edits only their own files, so merge conflicts stay rare.
+### 1. Onboarding
+- **2-step flow**: Name → Life stage selection
+- **Age-adapted**: Different options for teens, adults, perimenopause
+- **Demo mode**: Auto-populates with Priya's data for hackathon demo
 
-| Person 1 (Data) | Person 2 (AI / Voice) |
-|---|---|
-| `api/logs.js`, `api/report.js` | `api/transcribe.js`, `extract.js`, `insights.js`, `translate.js` |
-| `api/_lib/supabase.js`, `rules.js` | `api/_lib/llm.js`, `sarvam.js`, `fallbacks.js` |
-| `db/` | `content/` |
-| `src/lib/pdf.js` | `src/i18n/` |
+### 2. Home Dashboard
+- **Cycle Ring**: Visual representation of current cycle day and phase
+- **Quick Log**: Fast symptom entry with one tap
+- **Phase Tips**: Contextual wellness tips based on cycle phase
+- **Trend Visualization**: Pain trends over time
+- **Pattern Alerts**: Warnings for irregular cycles or concerning patterns
 
-**Shared files** (`src/lib/api.js`, `package.json`, `docs/api-contract.md`): tell each other before editing and keep changes small.
+### 3. Calendar View
+- **Monthly grid**: Easy to navigate through months
+- **Period highlighting**: Visual indication of period days
+- **Symptom indicators**: Color-coded dots for logged symptoms
+- **Cycle status**: Current day and phase display
+- **Interactive**: Click any day to view/edit logs
 
-### Person 1 tasks (Data)
-- Supabase project, tables (`users`, `cycle_logs`, `symptom_logs`), auth, row-level security
-- Log APIs connected to the frontend
-- Rules engine: next period prediction, cycle phase, irregular cycle, recurring pain, heavy flow + fatigue
-- `/report` data and PDF export
-- Seed script for the demo patient
+### 4. Symptom Logging
+- **Voice Mode**: Speak symptoms in Kannada, Hindi, or English
+  - Real-time transcription via Sarvam AI
+  - Automatic extraction of type, severity, area
+  - Editable before saving
+- **Manual Mode**: Traditional form-based entry
+  - Date picker
+  - Symptom type dropdown
+  - Severity slider (1-5)
+  - Area selection
+  - Optional notes
 
-### Person 2 tasks (AI / Voice)
-- Sarvam account, `/transcribe` for Kannada, Hindi and English
-- `/extract`: transcript to `{symptom, severity, area, date}`
-- `/insights`: rule flags to friendly, age-adapted wording
-- Kannada and Hindi translations, `en.json` / `kn.json` / `hi.json`
-- Phase tips and doctor questions JSON
-- Cached demo responses and fallbacks if an API fails
+### 5. Insights & Patterns
+- **Rules Engine**: Detects concerning patterns
+  - Irregular cycles (>7 day variation)
+  - Recurring pain
+  - Heavy flow with fatigue
+  - Sleep disturbances
+- **Age-Appropriate Language**: Friendly explanations adapted to life stage
+- **Visual Trends**: Charts showing patterns over time
+- **Doctor Questions**: Suggested questions based on detected patterns
 
----
-
-## API contract (agreed formats)
-
-Full details live in `docs/api-contract.md`. Short version:
-
-**Symptom log** (produced by `/extract`, saved by `/logs`)
-```json
-{ "date": "2026-10-24", "type": "pain", "severity": 4, "area": "abdomen", "source": "voice", "note": "since morning" }
-```
-
-**Rules engine output** (produced by `rules.js`, read by `/insights`)
-```json
-{
-  "next_period": "2026-10-30",
-  "phase": "luteal",
-  "flags": [
-    { "code": "IRREGULAR_CYCLE", "detail": "Cycle length varied by 9 days over 3 cycles" },
-    { "code": "RECURRING_PAIN", "detail": "Pain 4+ in the last 3 cycles" }
-  ]
-}
-```
-
-**Insight response** (produced by `/insights`, shown in the UI and the report)
-```json
-{ "text": "Your cycles varied by 9 days. Worth discussing with a doctor.", "lang": "en" }
-```
-
-> Build against these formats using mock data first, so neither of us waits for the other.
+### 6. Doctor Report
+- **Timeframe Selection**: 1, 2, or 3 months
+- **Comprehensive Data**:
+  - Patient information
+  - Cycle timeline with severity indicators
+  - Flagged patterns with explanations
+  - Clinical summary note
+  - Suggested doctor questions
+- **PDF Export**: Browser print dialog for professional reports
+- **Privacy-First**: All data stays on device (demo mode)
 
 ---
 
-## Git workflow
+## Demo Mode
+
+For the hackathon demo, the app runs in **demo mode** with mock data:
+
+### Demo User Profile
+- **Name**: Priya
+- **Age**: 19
+- **Life Stage**: Teen
+- **Cycle Length**: 30 days (varied)
+- **Current Phase**: Ovulation (Day 16)
+
+### Demo Data
+- **3 months of cycle logs**: August, September, October 2026
+- **20+ symptom logs**: Pain, mood, sleep, fatigue, headache, bloating, nausea
+- **Variation**: 7-day cycle variation between cycles
+- **Patterns**: Recurring headaches, sleep disturbances, heavy flow
+
+### Demo Features
+- **No API keys required**: Works offline with mock data
+- **Instant loading**: No network latency
+- **Consistent experience**: Same data every time
+- **Voice simulation**: Mock transcription for demo purposes
+
+---
+
+## API Endpoints
+
+### `/api/users`
+- **POST**: Register new user
+- **GET**: Fetch user profile
+
+### `/api/logs`
+- **GET**: Fetch symptom logs with date range
+- **POST**: Save new symptom log
+- **PUT**: Update existing log
+- **DELETE**: Remove log
+
+### `/api/transcribe`
+- **POST**: Convert audio to text (Sarvam AI)
+- Input: `{ audio: base64, mimeType: string, language: string }`
+- Output: `{ transcript: string }`
+
+### `/api/extract`
+- **POST**: Extract structured symptoms from transcript (LLM)
+- Input: `{ transcript: string, language: string }`
+- Output: `{ entries: [{ type, severity, area, date, note }] }`
+
+### `/api/report`
+- **GET**: Generate report data for PDF
+- Query params: `userId`, `timeframe`
+- Output: `{ patient, cycles, flaggedPatterns, clinicalNote, suggestedQuestions }`
+
+---
+
+## Rules Engine
+
+The rules engine analyzes logged data to detect concerning patterns:
+
+### Rule: Irregular Cycle
+- **Condition**: Cycle length varies by >7 days over 3 cycles
+- **Severity**: High
+- **Suggested Action**: Discuss with doctor
+
+### Rule: Recurring Pain
+- **Condition**: Pain severity 4+ in 3+ consecutive cycles
+- **Severity**: Medium
+- **Suggested Action**: Track and discuss if persists
+
+### Rule: Heavy Flow + Fatigue
+- **Condition**: Heavy flow (4+) with high fatigue (4+) in same cycle
+- **Severity**: High
+- **Suggested Action**: Discuss with doctor (possible anemia)
+
+### Rule: Sleep Disturbances
+- **Condition**: Sleep issues reported in 2+ consecutive cycles
+- **Severity**: Medium
+- **Suggested Action**: Monitor stress levels, discuss if worsens
+
+---
+
+## Design System
+
+### Color Palette
+- **Primary Coral**: `#EE8070` (actions, emphasis)
+- **Light Peach**: `#F6D1C5` (insights, backgrounds)
+- **Peach**: `#F4A990` (highlights)
+- **Deep Coral**: `#9d4235` (text, accents)
+- **White**: `#FFFFFF` (cards, backgrounds)
+- **Black**: `#000000` (text, borders)
+
+### Typography
+- **Primary**: Poppins (headings, body)
+- **Kannada**: Noto Sans Kannada
+- **Hindi**: Noto Sans Devanagari
+
+### Design Style
+- **Soft Neubrutalism**: Thick black outlines, hard offset shadows
+- **Rounded Corners**: Consistent 12-24px radius
+- **Playful but Professional**: Approachable healthcare design
+
+---
+
+## Git Workflow
 
 ```
-main        <- always working and demo-ready (auto-deploys to Vercel)
- └── dev    <- integration branch where features meet
-      ├── feat/data-...   (Person 1)
-      └── feat/ai-...     (Person 2)
+main        ← Production-ready, auto-deploys to Vercel
+ └── dev    ← Integration branch
+      ├── feat/data-...   (Data layer features)
+      ├── feat/ai-...     (AI/Voice features)
+      └── feat/ui-...     (UI/UX features)
 ```
 
-**Rules**
-1. Nobody commits directly to `main` or `dev`.
-2. One feature = one branch, created from `dev`, merged back through a Pull Request.
-3. Review each other's PR (a quick skim is enough).
-4. Small, frequent commits: `feat: add rules engine`, `fix: kannada font`.
-5. Sync with `dev` often.
-6. `dev` is merged into `main` only at checkpoints (hours 6, 12, 17, 22), after testing.
+### Branch Naming
+- `feat/feature-name`: New features
+- `fix/bug-description`: Bug fixes
+- `refactor/component-name`: Code refactoring
+- `docs/update-description`: Documentation updates
 
-**Starting a feature**
+### Commit Message Format
+```
+type(scope): description
+
+feat(report): add PDF generation
+fix(calendar): correct cycle day calculation
+refactor(onboarding): simplify state management
+docs(readme): update architecture section
+```
+
+---
+
+## Deployment
+
+### Vercel Deployment (Production)
+
 ```bash
-git checkout dev
-git pull origin dev
-git checkout -b feat/ai-transcribe
+# Install Vercel CLI
+npm i -g vercel
 
-# work, then:
-git add .
-git commit -m "feat: sarvam transcribe endpoint"
-git push -u origin feat/ai-transcribe
-# open a Pull Request into dev on GitHub
+# Login to Vercel
+vercel login
+
+# Link project
+vercel link
+
+# Deploy
+vercel --prod
 ```
 
-**Staying in sync while you work**
-```bash
-git fetch origin
-git merge origin/dev
-```
+### Environment Variables in Vercel
+1. Go to Project Settings → Environment Variables
+2. Add all variables from `.env.example`
+3. Redeploy after adding variables
+
+### Deployment Checklist
+- [ ] All environment variables set
+- [ ] Build succeeds (`npm run build`)
+- [ ] Voice recording tested (requires HTTPS)
+- [ ] PDF generation tested
+- [ ] All pages load without errors
+- [ ] Demo mode works as fallback
 
 ---
 
-## Rules for the team
+## Browser Compatibility
 
-- **No API keys in the repo.** If one leaks, rotate it immediately.
-- **Don't auto-format files you don't own.** It creates huge conflicts.
-- **Run `npm run build` before merging** into `dev` or `main`.
-- **Match file name capitalization exactly** in imports. Vercel is case-sensitive.
-- **Cache demo responses.** The demo must work even if an API or the Wi-Fi fails.
-- **One polished flow beats five half-working ones.** Must-haves: voice log, saved data, doctor PDF.
-- **Last 3 hours:** no new features, only fixes and rehearsal.
-
-## Deployment notes
-
-- The mic needs HTTPS. Test voice on the deployed Vercel URL, not on a local IP.
-- Keep voice clips under about 30 seconds (serverless time and size limits).
-- After adding or changing env variables in Vercel, redeploy.
+- **Chrome/Edge**: Full support (recommended)
+- **Firefox**: Full support
+- **Safari**: Full support (iOS 14+)
+- **Voice Recording**: Requires HTTPS (localhost or production)
+- **PDF Generation**: Requires browser print support
 
 ---
 
-## Design
+## Performance Considerations
 
-- Style: soft neubrutalism. Thick black outlines, hard offset shadows, rounded corners.
-- Palette: `#FFFFFF` white, `#F6D1C5` light peach, `#F4A990` peach, `#EE8070` coral, `#000000` black.
-- Fonts: Poppins or Nunito, plus Noto Sans Kannada and Noto Sans Devanagari for local languages.
-- Coral is for actions (buttons, mic, ring). Insights use light peach so nothing feels alarming.
-- tokens are in `DESIGN.md`.
+- **Lazy Loading**: Components loaded on demand
+- **Image Optimization**: Use WebP format
+- **Bundle Size**: Tree-shaking enabled
+- **API Caching**: Response caching for repeated requests
+- **LocalStorage**: Fast data access for demo mode
+
+---
+
+## Security
+
+- **API Keys**: Never exposed to client (server-side only)
+- **Authentication**: Supabase Row-Level Security (RLS)
+- **Data Encryption**: Supabase handles encryption at rest
+- **HTTPS Required**: For voice recording in production
+- **Input Validation**: All user inputs sanitized
+- **Rate Limiting**: Applied to API endpoints
+
+---
+
+## Accessibility
+
+- **Semantic HTML**: Proper heading hierarchy
+- **ARIA Labels**: Screen reader support
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Color Contrast**: WCAG AA compliant
+- **Touch Targets**: Minimum 44x44px for mobile
+- **Font Scaling**: Respects user font size preferences
+
+---
+
+## Future Enhancements
+
+### Phase 2 Features
+- [ ] Temperature tracking for ovulation confirmation
+- [ ] Cervical mucus logging
+- [ ] Integration with health apps (Apple Health, Google Fit)
+- [ ] Reminder notifications
+- [ ] Dark mode support
+- [ ] More languages (Tamil, Telugu, Malayalam)
+
+### Phase 3 Features
+- [ ] Community features (anonymous)
+- [ ] Doctor directory integration
+- [ ] Telehealth booking
+- [ ] AI-powered personalized recommendations
+- [ ] Wearable device integration
+
+---
+
+## Troubleshooting
+
+### Voice Recording Not Working
+- Ensure HTTPS is enabled (required for microphone access)
+- Check browser permissions for microphone
+- Verify Sarvam API key is set
+- Try with shorter audio clips (<30 seconds)
+
+### PDF Generation Issues
+- Use Chrome/Edge for best print support
+- Check browser pop-up blocker settings
+- Ensure CSS is loaded before printing
+- Try landscape orientation if layout is cut off
+
+### API Errors
+- Verify all environment variables are set
+- Check Supabase project is active
+- Ensure API keys have correct permissions
+- Check browser console for specific error messages
+
+### Build Failures
+- Clear node_modules: `rm -rf node_modules && npm install`
+- Check Node.js version (requires 18+)
+- Verify all dependencies are compatible
+- Check for TypeScript errors if applicable
+
+---
+
+## Contributing
+
+### For Team Members
+
+1. **Create feature branch** from `dev`
+2. **Make changes** in your assigned area
+3. **Test thoroughly** before committing
+4. **Write clear commit messages**
+5. **Create Pull Request** to `dev`
+6. **Request review** from teammate
+7. **Merge after approval**
+
+### Code Style
+- Use 2-space indentation
+- Prefer functional components with hooks
+- Add comments for complex logic
+- Keep components under 300 lines
+- Extract reusable logic to custom hooks
+
+### Testing
+- Test voice recording on actual device
+- Verify PDF output looks correct
+- Check responsive design on mobile
+- Test demo mode fallback
+- Verify error handling
+
+---
+
+## License
+
+This project is created for the PS1 Women's Healthcare hackathon.
 
 ---
 
 ## Disclaimer
 
-Kaya is a tracking and communication aid, not a medical device. It does not diagnose conditions. Wellness tips are general, and users should talk to a doctor about any concerns.
+Kaya is a tracking and communication aid, not a medical device. It does not diagnose conditions. Wellness tips are general, and users should talk to a doctor about any concerns. Always consult a healthcare professional for medical advice.
+
+---
+
+## Team & Credits
+
+- **Track**: PS1, Women's Healthcare
+- **Tech Stack**: React, Vite, Tailwind, Supabase, Sarvam AI, Groq
+- **Design**: Soft neubrutalism inspired by modern healthcare apps
+- **Languages**: English, Kannada, Hindi
+
+---
+
+## Contact & Support
+
+For questions or issues during the hackathon:
+- Check the troubleshooting section above
+- Review the API contract in `docs/api-contract.md`
+- Test with demo mode first before using real APIs
+
+---
+
+**Built with ❤️ for women's health**
