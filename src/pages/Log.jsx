@@ -1,10 +1,64 @@
+import { useState } from 'react';
 import { useTranslation } from '../i18n/index.jsx';
+import { useVoiceRecorder } from '../lib/useVoiceRecorder';
+import { saveLog } from '../lib/api';
 import { mockVoiceTranscription } from '../lib/mock/symptoms';
 import LanguageToggle from '../components/LanguageToggle';
 import BottomNav from '../components/BottomNav';
+import VoiceLogSheet from '../components/VoiceLogSheet';
 
 export default function Log() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
+
+  const [isVoiceSheetOpen, setIsVoiceSheetOpen] = useState(false);
+  const [transcribedData, setTranscribedData] = useState(null);
+  const [confirmedEntries, setConfirmedEntries] = useState(null);
+
+  const {
+    state: recordingState,
+    audioData,
+    mimeType,
+    startRecording,
+    stopRecording,
+    reset: resetRecording,
+  } = useVoiceRecorder(language);
+
+  const handleMicClick = () => {
+    if (recordingState === 'recording') {
+      stopRecording();
+    } else {
+      setIsVoiceSheetOpen(true);
+      startRecording();
+    }
+  };
+
+  const handleVoiceSheetClose = () => {
+    if (recordingState === 'recording') {
+      stopRecording();
+    }
+    setIsVoiceSheetOpen(false);
+    setTimeout(() => resetRecording(), 100);
+  };
+
+  const handleVoiceConfirm = async (entries) => {
+    setConfirmedEntries(entries);
+
+    const extracted = [];
+    entries.forEach(e => {
+      extracted.push({ type: 'symptom', value: e.type.charAt(0).toUpperCase() + e.type.slice(1), icon: 'healing' });
+      extracted.push({ type: 'severity', value: `${e.severity}/5`, icon: 'speed' });
+      if (e.area) {
+        extracted.push({ type: 'area', value: e.area.charAt(0).toUpperCase() + e.area.slice(1), icon: 'pin_drop' });
+      }
+      extracted.push({ type: 'date', value: e.date, icon: 'calendar_today' });
+    });
+
+    setTranscribedData({
+      original: entries[0]?.note || '',
+      translation: entries[0]?.note || '',
+      extracted
+    });
+  };
 
   return (
     <main className="w-full max-w-[390px] min-h-[844px] bg-[#f9f9f9] flex flex-col relative pb-32">
@@ -36,10 +90,13 @@ export default function Log() {
             <div className="absolute w-44 h-44 rounded-full border-[2.5px] border-black bg-[#feb198]/50 animate-pulse-delayed"></div>
             <button
               aria-label="Microphone record button"
-              className="relative z-10 w-24 h-24 rounded-full bg-[#EE8070] border-[2.5px] border-black shadow-[4px_4px_0px_#000000] flex items-center justify-center active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer"
+              onClick={handleMicClick}
+              className={`relative z-10 w-24 h-24 rounded-full bg-[#EE8070] border-[2.5px] border-black flex items-center justify-center active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all cursor-pointer ${
+                recordingState === 'recording' ? 'animate-pulse' : ''
+              }`}
             >
               <span className="material-symbols-outlined text-black text-[42px] font-bold" style={{ fontVariationSettings: 'FILL 1' }}>
-                mic
+                {recordingState === 'recording' ? 'stop' : 'mic'}
               </span>
             </button>
           </div>
@@ -74,7 +131,7 @@ export default function Log() {
 
           <div className="bg-white border-[2.5px] border-black rounded-xl p-3 mb-4 shadow-[2px_2px_0px_#000000]">
             <p className="text-[13px] text-black font-extrabold leading-relaxed">
-              "{mockVoiceTranscription.original}" <span className="text-[#56423f] font-semibold">({mockVoiceTranscription.translation})</span>
+              "{transcribedData?.original || mockVoiceTranscription.original}" <span className="text-[#56423f] font-semibold">({transcribedData?.translation || mockVoiceTranscription.translation})</span>
             </p>
           </div>
 
@@ -86,11 +143,11 @@ export default function Log() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {mockVoiceTranscription.extracted.map((item, index) => (
+            {(transcribedData?.extracted || mockVoiceTranscription.extracted).map((item, index) => (
               <div key={index} className="bg-[#feb198] border-[2.5px] border-black rounded-full px-3 py-1 shadow-[2px_2px_0px_#000000] flex items-center gap-1">
                 <span className="material-symbols-outlined text-[14px] text-black font-black">{item.icon}</span>
                 <span className="text-[11px] text-black font-black">
-                  {item.type.charAt(0).toUpperCase() + item.type.slice(1)}: {item.value}
+                  {item.value}
                 </span>
               </div>
             ))}
@@ -98,11 +155,26 @@ export default function Log() {
         </section>
 
         <section className="flex flex-col gap-3 mt-1">
-          <button className="w-full bg-[#EE8070] border-[2.5px] border-black shadow-[4px_4px_0px_#000000] rounded-full py-3.5 px-4 font-black text-[15px] text-black flex items-center justify-center gap-2 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all">
+          <button
+            onClick={async () => {
+              if (confirmedEntries) {
+                for (const entry of confirmedEntries) {
+                  await saveLog(entry);
+                }
+              }
+            }}
+            className="w-full bg-[#EE8070] border-[2.5px] border-black shadow-[4px_4px_0px_#000000] rounded-full py-3.5 px-4 font-black text-[15px] text-black flex items-center justify-center gap-2 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+          >
             <span className="material-symbols-outlined text-[20px] font-black">check_circle</span>
             <span>{t('log.confirmSave')}</span>
           </button>
-          <button className="w-full bg-white border-[2.5px] border-black shadow-[4px_4px_0px_#000000] rounded-full py-3.5 px-4 font-black text-[15px] text-black flex items-center justify-center gap-2 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all">
+          <button
+            onClick={() => {
+              setTranscribedData(null);
+              setConfirmedEntries(null);
+            }}
+            className="w-full bg-white border-[2.5px] border-black shadow-[4px_4px_0px_#000000] rounded-full py-3.5 px-4 font-black text-[15px] text-black flex items-center justify-center gap-2 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all"
+          >
             <span className="material-symbols-outlined text-[20px] font-black">edit_note</span>
             <span>{t('log.editDetails')}</span>
           </button>
@@ -115,6 +187,17 @@ export default function Log() {
       </div>
 
       <BottomNav />
+
+      <VoiceLogSheet
+        isOpen={isVoiceSheetOpen}
+        onClose={handleVoiceSheetClose}
+        language={language}
+        onConfirm={handleVoiceConfirm}
+        audioData={audioData}
+        mimeType={mimeType}
+        recordingState={recordingState}
+        onStopRecording={stopRecording}
+      />
 
       <style>{`
         @keyframes pulse-ring {

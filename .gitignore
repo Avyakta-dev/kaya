@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .devin/
+sample.mp3
+person2task.md
+.env
